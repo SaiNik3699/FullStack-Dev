@@ -1,0 +1,31 @@
+/* ===========================================================================
+   components/footer.css
+   =========================================================================== */
+
+.site-footer {
+  padding-block: var(--space-6);
+  background-color: var(--color-heading);
+  color: #d1d5db;
+}
+
+.site-footer__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.site-footer__text {
+  font-size: var(--text-sm);
+  margin: 0;
+}
+
+.site-footer a {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+.site-footer a:hover {
+  color: var(--color-primary-light);
+}

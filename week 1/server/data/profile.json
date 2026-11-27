@@ -1,0 +1,80 @@
+{
+  "name": "Rudraraju Sai Nikhil Varma",
+  "title": "Full Stack Developer",
+  "location": "Hyderabad, India",
+  "tagline": "Learning the web one layer at a time - HTML today, MERN by week 12.",
+  "about": "I am working through a 3-month full stack roadmap. Week 1 is about understanding how the web actually works and writing clean HTML and CSS by hand before any framework gets involved.",
+  "email": "nikhilvarmarudraraju66@gmail.com",
+  "skills": [
+    {
+      "name": "HTML",
+      "level": "Learning",
+      "week": 1
+    },
+    {
+      "name": "CSS",
+      "level": "Learning",
+      "week": 1
+    },
+    {
+      "name": "Git & GitHub",
+      "level": "Next up",
+      "week": 2
+    },
+    {
+      "name": "JavaScript",
+      "level": "Next up",
+      "week": 3
+    },
+    {
+      "name": "React",
+      "level": "Planned",
+      "week": 5
+    },
+    {
+      "name": "Node & Express",
+      "level": "Planned",
+      "week": 7
+    },
+    {
+      "name": "MongoDB",
+      "level": "Planned",
+      "week": 8
+    }
+  ],
+  "projects": [
+    {
+      "title": "Personal Bio Page",
+      "day": "Tuesday",
+      "description": "A single page written in pure HTML - headings, links, images, lists and a table. No CSS at all, so the browser's default styles are on full display.",
+      "tech": [
+        "HTML"
+      ]
+    },
+    {
+      "title": "Contact Form",
+      "day": "Wednesday",
+      "description": "An accessible contact form built with semantic tags and real labels, plus browser-native validation using required, type and pattern.",
+      "tech": [
+        "HTML",
+        "Forms",
+        "Accessibility"
+      ]
+    },
+    {
+      "title": "Styled Bio Page",
+      "day": "Thursday & Friday",
+      "description": "The Tuesday page restyled with CSS variables, a controlled box model, a Flexbox navbar and a responsive card row.",
+      "tech": [
+        "CSS",
+        "Box model",
+        "Flexbox"
+      ]
+    }
+  ],
+  "roadmap": {
+    "week": 1,
+    "month": 1,
+    "focus": "How the web works, HTML and CSS basics"
+  }
+}

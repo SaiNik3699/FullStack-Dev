@@ -1,0 +1,77 @@
+/* ===========================================================================
+   base/reset.css                                    (Day 4 - the box model)
+   ---------------------------------------------------------------------------
+   Browsers ship their own default styles, and they disagree with each other.
+   A small reset flattens those differences so you start from a known state.
+   =========================================================================== */
+
+/* THE single most useful line of CSS you will learn this week.
+   -----------------------------------------------------------------------
+   DEFAULT (content-box):
+       width: 300px + padding: 20px + border: 2px  =  344px on screen
+       You asked for 300 and got 344. Padding pushes the box outward.
+
+   WITH border-box:
+       width: 300px  =  300px on screen, full stop.
+       Padding and border grow INWARD, eating into the 300.
+
+   The second behaviour is what everyone actually expects, so we apply it to
+   every element, including ::before and ::after pseudo-elements.           */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Browsers add margin to headings, paragraphs and lists. Zero it out and add
+   spacing back deliberately, so vertical rhythm is something you control. */
+body,
+h1, h2, h3, h4, h5, h6,
+p, figure, blockquote,
+dl, dd, ul, ol {
+  margin: 0;
+  padding: 0;
+}
+
+/* Lists used for navigation and cards should not show bullets. Content lists
+   get their bullets back in typography.css. */
+ul[class],
+ol[class] {
+  list-style: none;
+}
+
+/* Images are inline by default, which leaves a mysterious gap underneath
+   (room for the text baseline). block removes it. max-width stops an image
+   from ever overflowing its container. */
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Form controls do not inherit the page font unless you ask them to. */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+/* Long words and URLs should wrap instead of blowing out the layout. */
+p, h1, h2, h3, li, td, th {
+  overflow-wrap: break-word;
+}
+
+/* Respect people who have asked their OS to reduce motion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

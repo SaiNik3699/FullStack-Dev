@@ -1,0 +1,38 @@
+# ---------------------------------------------------------------------------
+# .gitignore — files git should never track.
+#
+# A pattern here means "ignore this". Git checks it before staging, so these
+# never reach a commit and never reach GitHub.
+# ---------------------------------------------------------------------------
+
+# macOS writes this into every folder you open in Finder. It is metadata
+# about icon positions — never anything you wrote.
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Downloaded copies of files that already live in this repo.
+*.zip
+
+# Dependencies. These are reinstallable from package.json, are large, and
+# are the single most common thing accidentally committed.
+node_modules/
+
+# Environment variables. .env holds secrets; .env.example is the template
+# that SHOULD be committed, so it is explicitly un-ignored below.
+.env
+.env.local
+!.env.example
+
+# Editor and OS noise
+.vscode/
+.idea/
+*.swp
+
+# Logs
+*.log
+npm-debug.log*
+
+# Build output (none yet — Vite arrives in week 5)
+dist/
+build/

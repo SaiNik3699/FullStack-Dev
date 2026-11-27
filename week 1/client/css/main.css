@@ -1,0 +1,34 @@
+/* ===========================================================================
+   main.css - the only stylesheet the HTML links to
+   ---------------------------------------------------------------------------
+   Everything else is imported from here, in a deliberate order, because CSS
+   is read top to bottom and later rules win ties:
+
+     1. base/       resets, variables, typography, accessibility
+     2. layout/     the page skeleton - containers, sections, columns
+     3. components/ the reusable pieces - navbar, buttons, cards, forms
+
+   NOTE ON @import
+   It keeps the learning files small and separate, which is the point this
+   week. The cost is that the browser fetches them one after another. From
+   Week 5 a build tool (Vite) bundles them into one file automatically, so
+   this trade-off disappears on its own.
+   =========================================================================== */
+
+/* -- 1. Base -------------------------------------------------------------- */
+@import url("base/reset.css");
+@import url("base/variables.css");
+@import url("base/typography.css");
+@import url("base/a11y.css");
+
+/* -- 2. Layout ------------------------------------------------------------ */
+@import url("layout/layout.css");
+
+/* -- 3. Components -------------------------------------------------------- */
+@import url("components/navbar.css");
+@import url("components/button.css");
+@import url("components/card.css");
+@import url("components/badge.css");
+@import url("components/table.css");
+@import url("components/form.css");
+@import url("components/footer.css");

@@ -1,0 +1,40 @@
+/* ===========================================================================
+   components/badge.css
+   ---------------------------------------------------------------------------
+   Small status pills. A textbook case for modifier classes: one shape, three
+   colour schemes, no duplicated geometry.
+   =========================================================================== */
+
+.badge {
+  display: inline-block;
+  padding: var(--space-1) var(--space-3);
+
+  font-size: 0.75rem;
+  font-weight: 650;
+  white-space: nowrap;      /* never break "Learning - Week 1" across lines */
+
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+}
+
+/* Currently learning */
+.badge--now {
+  background-color: var(--color-success-bg);
+  color: var(--color-success);
+  border-color: currentColor;   /* currentColor = whatever `color` is above,
+                                   so the border always matches the text    */
+}
+
+/* Coming up soon */
+.badge--next {
+  background-color: var(--color-warning-bg);
+  color: var(--color-warning);
+  border-color: currentColor;
+}
+
+/* Further out */
+.badge--later {
+  background-color: var(--color-surface-muted);
+  color: var(--color-text-muted);
+  border-color: var(--color-border);
+}

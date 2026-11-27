@@ -1,0 +1,54 @@
+/* ===========================================================================
+   base/a11y.css - accessibility basics
+   ---------------------------------------------------------------------------
+   Two habits worth building in Week 1, because retrofitting them later is
+   miserable:
+     1. never remove a focus ring without replacing it
+     2. give keyboard users a way to skip repeated navigation
+   =========================================================================== */
+
+/* :focus-visible is the modern focus ring. It appears for keyboard users and
+   stays out of the way for mouse users - unlike plain :focus, which fires on
+   every click. Never write `outline: none` without a replacement here. */
+:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* The skip link sits off-screen until someone tabs to it, then slides into
+   view as the first thing a keyboard user reaches. */
+.skip-link {
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-2);
+  z-index: 100;
+
+  padding: var(--space-2) var(--space-4);
+  background-color: var(--color-primary);
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+
+  /* translateY moves it up out of sight without removing it from the page,
+     so screen readers and the Tab key can still find it. */
+  transform: translateY(-200%);
+  transition: transform var(--transition);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* Visually hidden, but still announced by screen readers. Use it for labels
+   that would be redundant on screen but are needed in the accessibility tree. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

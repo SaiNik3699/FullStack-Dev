@@ -1,0 +1,180 @@
+@charset "utf-8";
+
+/* Week 2 · Day 3 — transitions, hover effects, CSS variables.
+   Variables hold the values. Hover changes them. A transition makes the
+   change take time instead of happening instantly. */
+
+:root {
+  --ink: #16212e; --soft: #3d4e61; --muted: #6b7f92;
+  --surface: #fff; --alt: #f5f8f9; --line: #dce6ea;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, sans-serif;
+  --head: Georgia, "Times New Roman", serif;
+  --radius: 10px;
+
+  /* One accent. Everything else is derived from it, so overriding this
+     single property anywhere re-themes everything below that point. */
+  --accent: #0d7d74;
+  --accent-dk: color-mix(in srgb, var(--accent) 75%, black);
+  --accent-wash: color-mix(in srgb, var(--accent) 12%, white);
+
+  /* Timing, named once so every component moves the same way. */
+  --fast: 140ms;
+  --slow: 600ms;
+  --curve: cubic-bezier(.2, .7, .3, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; background: var(--surface); color: var(--ink);
+       font-family: var(--font); line-height: 1.65; }
+
+h1, h2, h3 { font-family: var(--head); line-height: 1.2; margin: 0 0 .6rem; }
+h1 { font-size: clamp(1.8rem, 5vw, 2.6rem); letter-spacing: -.02em; }
+h2 { font-size: 1.4rem; margin-bottom: .75rem; }
+h3 { font-size: 1.05rem; margin-top: 1.75rem; }
+p  { margin: 0 0 1rem; max-width: 64ch; }
+code, kbd { font-family: ui-monospace, Menlo, Consolas, monospace;
+            font-size: .86em; background: var(--alt);
+            border: 1px solid var(--line); padding: .1em .4em;
+            border-radius: 4px; color: var(--accent-dk); }
+.eyebrow { font-size: .78rem; font-weight: 700; letter-spacing: .08em;
+           text-transform: uppercase; color: var(--accent); margin-bottom: .3rem; }
+.lead { font-size: 1.05rem; color: var(--muted); }
+.muted { color: var(--muted); font-size: .88rem; }
+
+.head, main, footer { max-width: 62rem; margin-inline: auto; padding-inline: 1.25rem; }
+.head { padding-block: 2.5rem 1rem; }
+section { padding-block: 1.5rem 2.5rem; border-top: 1px solid var(--line); }
+footer { border-top: 1px solid var(--line); padding-block: 1.5rem; }
+.row { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; }
+.row--mid { align-items: center; margin-top: .5rem; }
+
+/* ========================================================================
+   BUTTONS
+   Every colour and size comes from a variable, so a variant only has to
+   override the variable — never the rules that use it.
+   ======================================================================== */
+.btn {
+  --btn-pad: .7rem 1.4rem;
+  --btn-size: .92rem;
+
+  padding: var(--btn-pad);
+  font: inherit; font-size: var(--btn-size); font-weight: 600;
+  color: #fff; background: var(--accent);
+  border: 1px solid transparent; border-radius: 8px;
+  cursor: pointer;
+
+  /* TRANSITION = property, duration, timing function, [delay].
+     List the properties explicitly. `transition: all` also animates
+     things you never meant to, and costs more to compute. */
+  transition: background-color var(--fast) var(--curve),
+              transform        var(--fast) var(--curve),
+              box-shadow       var(--fast) var(--curve);
+}
+
+/* transform and opacity are the two cheap things to animate: the browser
+   can hand them to the GPU without re-running layout. Animating `top`,
+   `height` or `margin` forces a reflow on every frame. */
+.btn:hover { background: var(--accent-dk); transform: translateY(-1px);
+             box-shadow: 0 4px 12px color-mix(in srgb, var(--accent) 35%, transparent); }
+.btn:active { transform: translateY(0); box-shadow: none; }
+
+/* Style focus as carefully as hover — a keyboard user has no pointer. */
+.btn:focus-visible { outline: 2px solid var(--accent-dk); outline-offset: 3px; }
+
+.btn:disabled { background: var(--line); color: var(--muted);
+                cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* Variants: one line each. The rules above never change. */
+.btn--danger { --accent: #b4341f; }
+.btn--go     { --accent: #2f7a3f; }
+.btn--sm     { --btn-pad: .42rem .9rem;  --btn-size: .82rem; }
+.btn--lg     { --btn-pad: .95rem 1.9rem; --btn-size: 1.05rem; }
+
+.btn--ghost { background: transparent; color: var(--accent-dk);
+              border-color: var(--line); }
+.btn--ghost:hover { background: var(--accent-wash); }
+
+/* ========================================================================
+   TIMING FUNCTIONS — same distance, same duration, five curves
+   ======================================================================== */
+.timings { list-style: none; margin: 0; padding: 0;
+           display: grid; gap: .6rem; }
+.timings li { display: grid; grid-template-columns: 1fr auto;
+              gap: 1rem; align-items: center; }
+.t { display: block; height: 2.1rem; border-radius: 6px;
+     background: var(--accent-wash); border: 1px solid var(--line);
+     transition-property: background-color, transform;
+     transition-duration: var(--slow); }
+.timings li:hover .t { background: var(--accent); transform: translateX(2rem); }
+
+.t--linear { transition-timing-function: linear; }
+.t--ease   { transition-timing-function: ease; }
+.t--in     { transition-timing-function: ease-in; }
+.t--out    { transition-timing-function: ease-out; }
+/* A y value above 1 overshoots and settles back — a spring, with no JS. */
+.t--spring { transition-timing-function: cubic-bezier(.34, 1.56, .64, 1); }
+
+/* ========================================================================
+   CARDS
+   ======================================================================== */
+.cards { display: grid; gap: 1.25rem;
+         grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); }
+
+.card {
+  display: flex; flex-direction: column;
+  padding: 1.4rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--accent);
+  border-radius: var(--radius);
+  transition: transform var(--fast) var(--curve),
+              box-shadow var(--fast) var(--curve),
+              border-color var(--fast) var(--curve);
+}
+.card:hover { transform: translateY(-4px);
+              box-shadow: 0 10px 24px rgb(22 33 46 / .10); }
+.card:focus-within { box-shadow: 0 0 0 3px var(--accent-wash); }
+
+.card__kicker { font-size: .72rem; font-weight: 700; letter-spacing: .07em;
+                text-transform: uppercase; color: var(--accent);
+                margin-bottom: .2rem; }
+.card h3 { margin-top: 0; }
+.card p { font-size: .92rem; color: var(--muted); }
+.card__link { margin-top: auto; font-size: .88rem; font-weight: 600;
+              color: var(--accent-dk); text-decoration: none; }
+.card__link:hover { text-decoration: underline; }
+
+.card--danger { --accent: #b4341f; }
+.card--go     { --accent: #2f7a3f; }
+
+/* ========================================================================
+   SCOPE DEMO — the thing a Sass variable cannot do
+   ======================================================================== */
+.scope-demo { display: grid; gap: 1rem;
+              grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); }
+.scope { padding: 1.25rem; border: 1px solid var(--line);
+         border-radius: var(--radius); background: var(--alt);
+         display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; }
+.scope__label { flex: 1 0 100%; margin: 0 0 .3rem; font-size: .82rem;
+                color: var(--muted); }
+.scope--warm { --accent: #b45309; }   /* one line re-themes everything inside */
+
+.chip { padding: .3rem .8rem; font-size: .8rem; font-weight: 600;
+        color: var(--accent-dk); background: var(--accent-wash);
+        border: 1px solid var(--accent); border-radius: 999px; }
+
+/* ========================================================================
+   Motion is a preference, not a given.
+   ======================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+  }
+}
+
+/* A finger cannot hover. Without this guard, a touch user taps a card and
+   the hover state sticks until they tap elsewhere. */
+@media (hover: none) {
+  .card:hover, .btn:hover { transform: none; box-shadow: none; }
+}

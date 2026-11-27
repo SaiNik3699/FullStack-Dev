@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "roadmap-static",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "4180"],
+      "port": 4180
+    },
+    {
+      "name": "week1-express",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "week 1", "start"],
+      "port": 3000
+    }
+  ]
+}

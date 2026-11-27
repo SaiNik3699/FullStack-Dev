@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<!-- Day 5 · Friday — display, position, Flexbox. Navbar + card row. -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Rudraraju Sai Nikhil Varma — Full Stack Developer." />
+  <title>Rudraraju Sai Nikhil Varma — Work</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- NAVBAR — position: sticky + Flexbox. Brand left, links right. -->
+  <header class="nav">
+    <a class="brand" href="#top">RSNV</a>
+    <nav>
+      <ul class="nav__list">
+        <li><a href="#work">Work</a></li>
+        <li><a href="#stack">Stack</a></li>
+        <li><a class="btn btn--small" href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="top">
+
+    <!-- HERO — Flexbox: text and image side by side, wrapping when narrow. -->
+    <section class="hero">
+      <div class="hero__text">
+        <p class="eyebrow">Full Stack Developer · Hyderabad</p>
+        <h1>Java, Spring Boot and REST APIs</h1>
+        <p>Three years building microservices. Now adding the frontend half.</p>
+        <p class="hero__actions">
+          <a class="btn" href="#work">See my work</a>
+          <a class="btn btn--ghost" href="#contact">Get in touch</a>
+        </p>
+      </div>
+      <img class="hero__img" src="avatar.svg" alt="Illustrated avatar"
+           width="160" height="160" />
+    </section>
+
+    <!-- CARD ROW — Flexbox: wraps 3 → 2 → 1 with no media query. -->
+    <section id="work">
+      <h2>Selected work</h2>
+
+      <div class="cards">
+
+        <article class="card">
+          <!-- position: absolute, anchored to .card's position: relative -->
+          <span class="card__badge">Live</span>
+          <h3>Account Management</h3>
+          <p>Advisor and investor portal — account values, statements and
+             transaction history.</p>
+          <ul class="tags"><li>Spring Boot</li><li>React</li><li>AWS</li></ul>
+          <a class="card__link" href="#work">Pacific Life →</a>
+        </article>
+
+        <article class="card">
+          <h3>Message Broker</h3>
+          <p>Publishers and subscribers that never need to know about each
+             other.</p>
+          <ul class="tags"><li>Kafka</li><li>REST</li><li>PostgreSQL</li></ul>
+          <a class="card__link" href="#work">Baker Hughes →</a>
+        </article>
+
+        <article class="card">
+          <h3>This page</h3>
+          <p>A navbar and a card row, built with Flexbox and no layout
+             framework at all.</p>
+          <ul class="tags"><li>HTML</li><li>CSS</li><li>Flexbox</li></ul>
+          <a class="card__link" href="#work">Week 1 · Day 5 →</a>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- display — three values, side by side so the difference is visible. -->
+    <section id="stack">
+      <h2>display, in one look</h2>
+      <div class="demo">
+        <span class="d-block">block — full width, stacks</span>
+        <span class="d-inline">inline — ignores width</span>
+        <span class="d-inline-block">inline-block — accepts width</span>
+      </div>
+    </section>
+
+  </main>
+
+  <footer id="contact">
+    <p>nikhilvarmarudraraju66@gmail.com</p>
+    <p class="muted">Week 1 · Day 5 — display, position, Flexbox</p>
+  </footer>
+
+</body>
+</html>

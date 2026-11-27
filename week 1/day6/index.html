@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<!-- Day 6 · Saturday — build day. The whole week, assembled.
+     Day 2 structure/text/links/images/lists/tables · Day 3 semantic tags + form
+     Day 4 CSS selectors/colours/fonts/units/box model · Day 5 display/position/Flexbox -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Rudraraju Sai Nikhil Varma — Full Stack Developer in Hyderabad. Java, Spring Boot, REST APIs." />
+  <meta name="author" content="Rudraraju Sai Nikhil Varma" />
+  <title>Rudraraju Sai Nikhil Varma — Full Stack Developer</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <!-- Day 5: sticky + Flexbox. Day 3: <header> and <nav>. -->
+  <header class="nav">
+    <a class="brand" href="#top">RSNV</a>
+    <nav aria-label="Main">
+      <ul class="nav__list">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a class="btn btn--sm" href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+
+    <!-- HERO — Day 5 Flexbox -->
+    <section class="hero" id="top">
+      <div class="hero__text">
+        <p class="eyebrow">Full Stack Developer · Hyderabad, India</p>
+        <h1>Java, Spring Boot and REST APIs</h1>
+        <p class="lead">
+          <strong>3+ years</strong> building web and enterprise applications on a
+          microservices architecture. Now adding the frontend half of the stack.
+        </p>
+        <p class="hero__actions">
+          <a class="btn" href="#work">See my work</a>
+          <a class="btn btn--ghost" href="#contact">Get in touch</a>
+        </p>
+      </div>
+      <img class="hero__img" src="avatar.svg" alt="Illustrated avatar of Sai Nikhil"
+           width="180" height="180" />
+    </section>
+
+    <!-- ABOUT — Day 2 text tags -->
+    <section id="about">
+      <h2>About me</h2>
+      <p>
+        I design and build <abbr title="Representational State Transfer">REST</abbr>
+        APIs in Java and <abbr title="Jakarta Enterprise Edition">JEE</abbr>, mostly
+        with Spring Boot and Hibernate, and write the
+        <abbr title="A Java unit-testing framework">JUnit</abbr> tests that keep them
+        honest. I work across the full
+        <abbr title="Software Development Life Cycle">SDLC</abbr> in Scrum teams.
+      </p>
+      <blockquote>
+        <p>The client is never trustworthy — every rule that matters belongs on the server.</p>
+      </blockquote>
+      <p>What I am adding now: <mark>the frontend half of the stack</mark>.</p>
+    </section>
+
+    <!-- SKILLS — Day 2 nested lists -->
+    <section id="skills" class="band">
+      <h2>Technical skills</h2>
+      <ul class="skills">
+        <li>Languages
+          <ul><li>Java 8+</li><li>JavaScript</li><li>HTML &amp; CSS</li></ul>
+        </li>
+        <li>Frameworks
+          <ul><li>Spring Boot, Spring Cloud</li><li>Hibernate</li><li>React</li></ul>
+        </li>
+        <li>Data
+          <ul><li>Oracle</li><li>MySQL</li><li>PostgreSQL</li></ul>
+        </li>
+        <li>Cloud &amp; tools
+          <ul><li>AWS (S3), GCP</li><li>Kafka, ActiveMQ</li><li>Maven, Git, JUnit</li></ul>
+        </li>
+      </ul>
+    </section>
+
+    <!-- WORK — Day 5 card row, wraps 3 → 2 → 1 with no media query -->
+    <section id="work">
+      <h2>Selected work</h2>
+      <div class="cards">
+        <article class="card">
+          <span class="card__badge">Live</span>
+          <h3>Account Management</h3>
+          <p>Advisor and investor portal — account values, statements and transaction history.</p>
+          <ul class="tags"><li>Spring Boot</li><li>React</li><li>AWS S3</li></ul>
+          <a class="card__link" href="#contact">Pacific Life &rarr;</a>
+        </article>
+        <article class="card">
+          <h3>Message Broker</h3>
+          <p>Publishers and subscribers that never need to know about each other.</p>
+          <ul class="tags"><li>Kafka</li><li>REST</li><li>PostgreSQL</li></ul>
+          <a class="card__link" href="#contact">Baker Hughes &rarr;</a>
+        </article>
+        <article class="card">
+          <h3>This page</h3>
+          <p>One week of HTML and CSS, by hand. No framework, no media query.</p>
+          <ul class="tags"><li>HTML</li><li>CSS</li><li>Flexbox</li></ul>
+          <a class="card__link" href="#experience">Week 1 &rarr;</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE — Day 2 table with rowspan and colspan -->
+    <section id="experience" class="band">
+      <h2>Experience</h2>
+      <p><strong>Trueblue IT Consulting Services Pvt. Ltd.</strong> — Software Engineer, July 2023 to present.</p>
+      <div class="table-wrap">
+        <table>
+          <caption>Client projects delivered</caption>
+          <thead>
+            <tr><th scope="col">Employer</th><th scope="col">Project</th>
+                <th scope="col">Client</th><th scope="col">Role</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row" rowspan="2">Trueblue IT</th>
+                <td>Transactional Message Broker</td><td>Baker Hughes</td><td>Developer</td></tr>
+            <tr><td>Account Management Application</td><td>Pacific Life</td><td>Developer</td></tr>
+          </tbody>
+          <tfoot><tr><td colspan="3">Time in role</td><td>3+ years</td></tr></tfoot>
+        </table>
+      </div>
+
+      <h3>Education</h3>
+      <dl>
+        <dt>Bachelor of Technology</dt>
+        <dd>Visvesvaraya National Institute of Technology, Nagpur</dd>
+        <dd>Graduated 2023</dd>
+      </dl>
+    </section>
+
+    <!-- CONTACT — Day 3 form, native validation, no JavaScript -->
+    <section id="contact">
+      <h2>Get in touch</h2>
+      <div class="split">
+        <form class="form" action="index.html" method="get">
+          <fieldset>
+            <legend>Your details</legend>
+            <p>
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" autocomplete="name"
+                     minlength="2" required />
+            </p>
+            <p>
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" autocomplete="email" required />
+            </p>
+            <p>
+              <label for="topic">What is this about?</label>
+              <select id="topic" name="topic">
+                <option value="">Choose one&hellip;</option>
+                <option value="hiring">A role or contract</option>
+                <option value="freelance">Freelance project</option>
+                <option value="other">Something else</option>
+              </select>
+            </p>
+            <p>
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="5" minlength="10" required></textarea>
+            </p>
+          </fieldset>
+          <p><button class="btn" type="submit">Send message</button></p>
+        </form>
+
+        <!-- Day 3: <aside>, <address>, <time> -->
+        <aside class="panel">
+          <h3>Or reach me directly</h3>
+          <address>
+            <p><a href="mailto:nikhilvarmarudraraju66@gmail.com">nikhilvarmarudraraju66@gmail.com</a></p>
+            <p><a href="tel:+919705215556">+91 97052 15556</a></p>
+            <p><a href="https://www.linkedin.com/in/sai-nikhil-varma-rudraraju/"
+                  target="_blank" rel="noopener noreferrer">LinkedIn</a></p>
+          </address>
+          <p class="muted">Usually replies within <time datetime="PT24H">24 hours</time>.</p>
+        </aside>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Rudraraju Sai Nikhil Varma</p>
+    <p class="muted">Week 1 build day — written by hand in HTML and CSS.</p>
+  </footer>
+</body>
+</html>

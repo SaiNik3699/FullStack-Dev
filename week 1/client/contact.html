@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<!--
+  ===========================================================================
+  contact.html - Contact form + semantic layout      (Day 3 - Wednesday)
+  ---------------------------------------------------------------------------
+  Two lessons live on this page.
+
+  1. SEMANTIC TAGS
+     header / nav / main / section / article / aside / figure / address /
+     time / footer. Every one of them renders like a plain <div>. The
+     difference is meaning: screen readers can jump between them, search
+     engines understand them, and your own CSS stays readable.
+
+  2. FORMS
+     Every input is wired to a <label>, grouped in a <fieldset>, and validated
+     by the browser itself using required / type / pattern / minlength.
+
+  TRY THIS: fill the form in and press Send. There is no backend handler yet,
+  so the browser does a GET to this same page and you will see your answers
+  appear in the address bar as a query string:
+      contact.html?name=Sai&email=...&topic=collaboration
+  That IS the request - exactly what Monday's diagram describes. In Week 7 an
+  Express POST route replaces it.
+  ===========================================================================
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Contact form built with semantic HTML and native browser validation." />
+  <title>Contact | Rudraraju Sai Nikhil Varma</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="index.html">
+        <span class="brand__mark" aria-hidden="true">W1</span>
+        <span class="brand__text">Week&nbsp;1</span>
+      </a>
+
+      <nav class="nav" aria-label="Main navigation">
+        <ul class="nav__list">
+          <li><a class="nav__link" href="index.html">Home</a></li>
+          <li><a class="nav__link" href="index.html#skills">Skills</a></li>
+          <li><a class="nav__link" href="index.html#projects">Projects</a></li>
+          <li><a class="nav__link" href="index.html#roadmap">Roadmap</a></li>
+          <li><a class="nav__link nav__link--button is-active" href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="section">
+      <div class="container">
+
+        <h1 class="section__title">Get in touch</h1>
+        <p class="section__subtitle">
+          Every field below is validated by the browser &mdash; no JavaScript involved.
+        </p>
+
+        <!-- The two-column split: form on the left, aside on the right.
+             On a narrow screen they stack (see css/layout/layout.css). -->
+        <div class="split">
+
+          <!-- ===========================================================
+               THE FORM
+               =========================================================== -->
+          <div class="split__main">
+            <!--
+              action = where the data goes.  method = how it travels.
+                GET  puts the data in the URL     (visible, bookmarkable)
+                POST puts it in the request body  (used for anything private)
+              We use GET here only so you can SEE the data move.
+            -->
+            <form class="form" action="contact.html" method="get">
+
+              <!-- A fieldset groups related inputs; the legend names the group.
+                   Screen readers announce the legend before each field. -->
+              <fieldset class="form__group">
+                <legend class="form__legend">Your details</legend>
+
+                <div class="field">
+                  <!--
+                    label "for" must match input "id". That pairing is what
+                    makes clicking the label focus the input, and what tells a
+                    screen reader which text describes which box.
+                  -->
+                  <label class="field__label" for="name">
+                    Full name <span class="field__required" aria-hidden="true">*</span>
+                  </label>
+                  <input class="field__input"
+                         type="text"
+                         id="name"
+                         name="name"
+                         placeholder="Rudraraju Sai Nikhil Varma"
+                         autocomplete="name"
+                         minlength="2"
+                         maxlength="60"
+                         required />
+                  <!-- aria-describedby links the hint to the input so it is
+                       read out together with the label. -->
+                  <p class="field__hint" id="name-hint">At least 2 characters.</p>
+                </div>
+
+                <div class="field">
+                  <label class="field__label" for="email">
+                    Email <span class="field__required" aria-hidden="true">*</span>
+                  </label>
+                  <!-- type="email" gives you free format checking AND an
+                       email-friendly keyboard on phones. -->
+                  <input class="field__input"
+                         type="email"
+                         id="email"
+                         name="email"
+                         placeholder="you@example.com"
+                         autocomplete="email"
+                         aria-describedby="email-hint"
+                         required />
+                  <p class="field__hint" id="email-hint">
+                    I will only reply to this address &mdash; nothing else.
+                  </p>
+                </div>
+
+                <div class="field">
+                  <label class="field__label" for="phone">Phone (optional)</label>
+                  <!--
+                    pattern is a regular expression the whole value must match.
+                    title explains the rule when validation fails.
+
+                    WATCH OUT: the browser compiles this with the regex `v`
+                    flag, where (  )  -  [  ]  {  }  are "syntax characters"
+                    that MUST be escaped inside a character class. Write
+                    [0-9 ()-] and the pattern fails to compile - at which point
+                    the browser SILENTLY IGNORES the attribute and the field
+                    happily accepts "abc!!!". No console error, no warning.
+
+                    So: \( \) \- , and always test a pattern with a value you
+                    expect it to REJECT, not just one you expect it to accept.
+                  -->
+                  <input class="field__input"
+                         type="tel"
+                         id="phone"
+                         name="phone"
+                         placeholder="+1 617 555 0123"
+                         autocomplete="tel"
+                         pattern="[+]?[0-9 \(\)\-]{7,20}"
+                         title="Digits, spaces, brackets and dashes only (7-20 characters)" />
+                </div>
+              </fieldset>
+
+              <fieldset class="form__group">
+                <legend class="form__legend">Your message</legend>
+
+                <div class="field">
+                  <label class="field__label" for="topic">What is this about?</label>
+                  <!-- A <select> is the right control when there are more than
+                       about five fixed choices. -->
+                  <select class="field__input" id="topic" name="topic">
+                    <option value="">Choose one&hellip;</option>
+                    <option value="collaboration">Collaboration</option>
+                    <option value="feedback">Feedback on my work</option>
+                    <option value="mentoring">Mentoring</option>
+                    <option value="other">Something else</option>
+                  </select>
+                </div>
+
+                <!-- Radio buttons: ONE choice from a short list.
+                     They share the same `name`, which is what groups them;
+                     each needs its own unique `id`. -->
+                <div class="field">
+                  <span class="field__label" id="urgency-label">How soon do you need a reply?</span>
+                  <div class="choice-row" role="radiogroup" aria-labelledby="urgency-label">
+                    <label class="choice">
+                      <input type="radio" name="urgency" value="whenever" checked />
+                      <span>Whenever</span>
+                    </label>
+                    <label class="choice">
+                      <input type="radio" name="urgency" value="this-week" />
+                      <span>This week</span>
+                    </label>
+                    <label class="choice">
+                      <input type="radio" name="urgency" value="today" />
+                      <span>Today</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label class="field__label" for="message">
+                    Message <span class="field__required" aria-hidden="true">*</span>
+                  </label>
+                  <!-- A textarea's value goes BETWEEN the tags, not in a
+                       value attribute. Leave it empty for an empty box. -->
+                  <textarea class="field__input field__input--area"
+                            id="message"
+                            name="message"
+                            rows="6"
+                            minlength="10"
+                            placeholder="Tell me what you are working on&hellip;"
+                            required></textarea>
+                </div>
+
+                <!-- A checkbox: an independent yes/no. -->
+                <div class="field">
+                  <label class="choice">
+                    <input type="checkbox" name="newsletter" value="yes" />
+                    <span>Send me occasional notes about my progress</span>
+                  </label>
+                </div>
+              </fieldset>
+
+              <div class="form__actions">
+                <!-- Always set type on a button inside a form. The default is
+                     "submit", which surprises people who wanted a plain button. -->
+                <button class="button button--primary" type="submit">Send message</button>
+                <button class="button button--ghost" type="reset">Clear form</button>
+              </div>
+
+              <p class="form__note">
+                No data leaves your machine. The form does a GET to this same
+                page so you can watch your answers land in the address bar.
+              </p>
+            </form>
+          </div>
+
+          <!-- ===========================================================
+               ASIDE - content related to the page but not part of it
+               =========================================================== -->
+          <aside class="split__aside" aria-label="Other ways to reach me">
+            <div class="panel">
+              <h2 class="panel__title">Other ways to reach me</h2>
+
+              <!-- <address> is specifically for contact details of the nearest
+                   article or of the whole document. -->
+              <address class="panel__address">
+                <p>
+                  <strong>Email</strong><br />
+                  <a href="mailto:nikhilvarmarudraraju66@gmail.com">nikhilvarmarudraraju66@gmail.com</a>
+                </p>
+                <p>
+                  <strong>Based in</strong><br />
+                  Hyderabad, India
+                </p>
+              </address>
+
+              <p class="panel__meta">
+                <!-- <time> with datetime gives machines an unambiguous date
+                     while humans read the friendly text. -->
+                Usually replies within
+                <time datetime="PT24H">24 hours</time>.
+              </p>
+            </div>
+
+            <!-- <figure> wraps self-contained illustrative content and
+                 <figcaption> labels it. -->
+            <figure class="panel panel--tip">
+              <figcaption class="panel__title">Semantic tag cheat sheet</figcaption>
+              <ul class="tip-list">
+                <li><code>&lt;header&gt;</code> &mdash; intro content or navigation</li>
+                <li><code>&lt;nav&gt;</code> &mdash; a block of major links</li>
+                <li><code>&lt;main&gt;</code> &mdash; the unique content, once per page</li>
+                <li><code>&lt;section&gt;</code> &mdash; a themed group, normally with a heading</li>
+                <li><code>&lt;article&gt;</code> &mdash; stands alone if lifted out</li>
+                <li><code>&lt;aside&gt;</code> &mdash; related but not essential</li>
+                <li><code>&lt;footer&gt;</code> &mdash; closing info for its section</li>
+              </ul>
+            </figure>
+          </aside>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <p class="site-footer__text">Week&nbsp;1 &middot; Day 3 &mdash; forms and semantic tags</p>
+      <p class="site-footer__text"><a href="index.html">&larr; Back to the bio page</a></p>
+    </div>
+  </footer>
+</body>
+</html>

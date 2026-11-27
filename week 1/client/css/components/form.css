@@ -1,0 +1,160 @@
+/* ===========================================================================
+   components/form.css                                     (Day 3 - forms)
+   ---------------------------------------------------------------------------
+   Form controls are the least consistent things in CSS - every browser and
+   every OS styles them differently. These rules bring them to one look.
+
+   The highlight is the VALIDATION STATES at the bottom: :invalid, :valid and
+   :placeholder-shown let the browser colour a field red or green with no
+   JavaScript at all.
+   =========================================================================== */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  max-width: 38rem;
+}
+
+/* -- Fieldset --------------------------------------------------------------
+   <fieldset> ships with a border and odd padding. We reset it and draw our
+   own card instead. */
+.form__group {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  background-color: var(--color-surface);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.form__legend {
+  padding-inline: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+/* -- Single field ---------------------------------------------------------- */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.field__label {
+  font-size: var(--text-sm);
+  font-weight: 650;
+  color: var(--color-heading);
+}
+
+.field__required {
+  color: var(--color-danger);
+}
+
+.field__input {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.field__input:hover {
+  border-color: var(--color-text-muted);
+}
+
+.field__input:focus {
+  outline: none;                            /* removed ONLY because the ring
+                                               below replaces it            */
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+.field__input--area {
+  /* Let people drag the box taller, but not wider - horizontal resizing
+     breaks the layout. */
+  resize: vertical;
+  min-height: 8rem;
+  line-height: var(--leading-body);
+}
+
+.field__input::placeholder {
+  color: var(--color-text-muted);
+  opacity: 0.8;
+}
+
+.field__hint {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+/* -- Radios and checkboxes -------------------------------------------------
+   Wrapping the input INSIDE its <label> means the whole row is clickable,
+   and no for/id pairing is needed. */
+.choice-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.choice {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+
+  font-size: var(--text-sm);
+  cursor: pointer;
+}
+
+.choice input {
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--color-primary);   /* one line to recolour the native
+                                           control - no custom markup       */
+  cursor: pointer;
+}
+
+/* -- Actions --------------------------------------------------------------- */
+.form__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.form__note {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+/* ---------------------------------------------------------------------------
+   VALIDATION STATES - free, from the browser, with zero JavaScript
+   ---------------------------------------------------------------------------
+   The catch: a required field is :invalid the moment the page loads, before
+   anyone has typed a thing. Flashing red at someone who has not touched the
+   form is hostile.
+
+   The fix is :not(:placeholder-shown) - "this field is NOT showing its
+   placeholder", which is only true once there is real content in it. So the
+   red border waits until the person has actually typed something wrong.
+   --------------------------------------------------------------------------- */
+.field__input:invalid:not(:placeholder-shown) {
+  border-color: var(--color-danger);
+}
+
+.field__input:valid:not(:placeholder-shown) {
+  border-color: var(--color-success);
+}
+
+/* After a failed submit attempt, :user-invalid is the cleaner modern answer
+   to the same problem - the browser tracks interaction for you. */
+.field__input:user-invalid {
+  border-color: var(--color-danger);
+}

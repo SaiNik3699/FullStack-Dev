@@ -1,0 +1,164 @@
+/* Day 6 · Saturday — build day. Thursday's box model + Friday's Flexbox,
+   applied to the whole page. No new concepts, no media query. */
+
+:root {
+  --ink: #16212e; --soft: #3d4e61; --muted: #6b7f92;
+  --accent: #0d7d74; --accent-dk: #09574f; --wash: #e6f4f2;
+  --surface: #fff; --alt: #f5f8f9; --line: #dce6ea; --mark: #ffe9a8;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, sans-serif;
+  --head: Georgia, "Times New Roman", serif;
+  --sp: 1rem; --radius: 10px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }          /* Day 4 */
+
+body {
+  margin: 0; background: var(--surface); color: var(--ink);
+  font-family: var(--font); font-size: 1rem; line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- typography (Day 4) ---------- */
+h1, h2, h3 { font-family: var(--head); line-height: 1.2; margin: 0 0 .6rem;
+             text-wrap: balance; }
+h1 { font-size: clamp(1.9rem, 5vw, 2.9rem); letter-spacing: -.02em; }
+h2 { font-size: clamp(1.4rem, 3vw, 1.8rem); margin-bottom: 1rem; }
+h3 { font-size: 1.15rem; color: var(--accent-dk); margin-top: 1.75rem; }
+p  { margin: 0 0 var(--sp); max-width: 68ch; }
+a  { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent-dk); text-decoration: underline; }
+strong { font-weight: 650; }
+abbr[title] { text-decoration: underline dotted currentColor;
+              text-underline-offset: .2em; cursor: help; }
+mark { background: var(--mark); padding: .1em .3em; border-radius: 3px; }
+blockquote { margin: 1.25rem 0; padding: 1rem 1.25rem; color: var(--soft);
+             font-style: italic; background: var(--wash);
+             border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; }
+blockquote p { margin: 0; max-width: none; }
+.eyebrow { font-size: .8rem; font-weight: 700; letter-spacing: .08em;
+           text-transform: uppercase; color: var(--accent); margin-bottom: .3rem; }
+.lead  { font-size: 1.12rem; color: var(--soft); }
+.muted { color: var(--muted); font-size: .88rem; }
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+
+/* keyboard users land here first; hidden until focused (Day 5 position) */
+.skip { position: absolute; top: .5rem; left: .5rem; z-index: 20;
+        padding: .5rem 1rem; background: var(--accent); color: #fff;
+        border-radius: 6px; transform: translateY(-200%); transition: transform .15s; }
+.skip:focus { transform: translateY(0); color: #fff; text-decoration: none; }
+
+/* ---------- layout rails (Day 4 box model, no Flexbox needed) ---------- */
+main, footer, .nav { padding-inline: 1.5rem; }
+section { max-width: 62rem; margin-inline: auto; padding-block: 3.5rem; scroll-margin-top: 4rem; }
+.band { max-width: none; background: var(--alt); border-block: 1px solid var(--line); }
+.band > * { max-width: 62rem; margin-inline: auto; }
+
+/* ---------- navbar — sticky + Flexbox (Day 5) ---------- */
+.nav { position: sticky; top: 0; z-index: 10;
+       display: flex; justify-content: space-between; align-items: center;
+       gap: var(--sp); flex-wrap: wrap; padding-block: .75rem;
+       background: rgb(255 255 255 / .9); backdrop-filter: blur(8px);
+       border-bottom: 1px solid var(--line); }
+.brand { font-weight: 700; letter-spacing: .05em; color: var(--ink); }
+.nav__list { display: flex; align-items: center; gap: .2rem; flex-wrap: wrap;
+             list-style: none; margin: 0; padding: 0; }
+.nav__list a { display: inline-block; padding: .45rem .8rem; border-radius: 6px;
+               font-size: .9rem; font-weight: 600; color: var(--muted); }
+.nav__list a:hover { background: var(--wash); color: var(--accent-dk); text-decoration: none; }
+
+/* ---------- buttons ---------- */
+.btn { display: inline-block; padding: .7rem 1.3rem; border: 1px solid transparent;
+       background: var(--accent); color: #fff; font: inherit; font-size: .9rem;
+       font-weight: 600; border-radius: 8px; cursor: pointer; }
+.btn:hover { background: var(--accent-dk); color: #fff; text-decoration: none; }
+.btn--ghost { background: transparent; color: var(--accent-dk); border-color: var(--line); }
+.btn--ghost:hover { background: var(--wash); color: var(--accent-dk); }
+.btn--sm { padding: .4rem .85rem; }
+
+/* ---------- hero — Flexbox (Day 5) ---------- */
+.hero { display: flex; align-items: center; justify-content: space-between;
+        gap: 2.5rem; flex-wrap: wrap; padding-block: 4rem 3rem; }
+.hero__text { flex: 1 1 26rem; }          /* grow, shrink, start at 26rem */
+.hero__img  { flex: 0 0 auto; width: 180px; border-radius: 50%;
+              border: 4px solid var(--wash); }
+.hero__actions { display: flex; gap: .75rem; flex-wrap: wrap; }
+
+/* ---------- lists (Day 2) ---------- */
+.skills { display: flex; flex-wrap: wrap; gap: 1.25rem 2.5rem;
+           list-style: none; padding: 0; margin: 0; }
+.skills > li { flex: 1 1 12rem; font-weight: 650; }
+.skills ul { margin: .4rem 0 0; padding-left: 1.1rem; font-weight: 400; color: var(--soft); }
+.skills ::marker { color: var(--accent); }
+
+dl { margin: 0; }
+dt { font-weight: 650; margin-top: .75rem; }
+dd { margin-left: 0; padding-left: var(--sp); border-left: 2px solid var(--line);
+     color: var(--soft); }
+
+/* ---------- card row — wraps 3 → 2 → 1, no media query (Day 5) ---------- */
+.cards { display: flex; flex-wrap: wrap; gap: 1.5rem; }
+.card { flex: 1 1 16rem; display: flex; flex-direction: column; position: relative;
+        padding: 1.5rem; background: var(--surface);
+        border: 1px solid var(--line); border-radius: var(--radius);
+        transition: transform .15s ease, box-shadow .15s ease; }
+.card:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgb(22 33 46 / .09); }
+.card h3 { margin-top: 0; font-size: 1.05rem; color: var(--ink); }
+.card p  { font-size: .92rem; color: var(--muted); }
+/* absolute, anchored to .card's relative — remove it and this flies to the page corner */
+.card__badge { position: absolute; top: 1rem; right: 1rem; padding: .15rem .55rem;
+               background: var(--accent); color: #fff; font-size: .7rem;
+               font-weight: 700; border-radius: 999px; }
+/* eats the spare space above, pinning the link to the bottom of every card */
+.card__link { margin-top: auto; padding-top: var(--sp); font-size: .88rem; font-weight: 600; }
+.tags { display: flex; flex-wrap: wrap; gap: .4rem; list-style: none;
+        margin: 0 0 .5rem; padding: 0; }
+.tags li { padding: .15rem .6rem; font-size: .72rem; font-weight: 600;
+           color: var(--muted); background: var(--alt);
+           border: 1px solid var(--line); border-radius: 999px; }
+
+/* ---------- table (Day 2 + Day 4) ---------- */
+.table-wrap { overflow-x: auto; border: 1px solid var(--line);
+              border-radius: var(--radius); background: var(--surface); }
+table { border-collapse: collapse; width: 100%; min-width: 34rem; font-size: .9rem; }
+caption { caption-side: top; text-align: left; padding: .75rem 1rem .25rem;
+          color: var(--muted); font-size: .85rem; }
+th, td { padding: .7rem 1rem; text-align: left; vertical-align: top;
+         border-bottom: 1px solid var(--line); }
+thead th { background: var(--wash); color: var(--accent-dk); white-space: nowrap; }
+tbody th { color: var(--accent-dk); white-space: nowrap; }
+tfoot { background: var(--alt); font-weight: 650; }
+tbody tr:last-child th, tbody tr:last-child td { border-bottom: none; }
+
+/* ---------- contact — two columns that stack on their own (Day 5) ---------- */
+.split { display: flex; flex-wrap: wrap; gap: 2rem; align-items: flex-start; }
+.form  { flex: 1 1 24rem; }
+.panel { flex: 1 1 16rem; padding: 1.5rem; background: var(--alt);
+         border: 1px solid var(--line); border-radius: var(--radius); }
+.panel h3 { margin-top: 0; }
+address { font-style: normal; font-size: .92rem; }
+address p { margin-bottom: .5rem; }
+
+fieldset { border: 1px solid var(--line); border-radius: var(--radius);
+           padding: 1.25rem; margin: 0 0 var(--sp); }
+legend { padding-inline: .4rem; font-size: .78rem; font-weight: 700;
+         letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
+label { display: block; margin-bottom: .3rem; font-size: .88rem; font-weight: 650; }
+input, select, textarea { width: 100%; padding: .6rem .75rem; font: inherit;
+                          background: var(--surface); color: var(--ink);
+                          border: 1px solid var(--line); border-radius: 8px; }
+input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent);
+                                            box-shadow: 0 0 0 3px var(--wash); }
+textarea { resize: vertical; min-height: 7rem; }
+/* Flag a field only AFTER the user has interacted with it.
+   The old trick -- :invalid:not(:placeholder-shown) -- silently fails on an
+   input with no placeholder: there is no placeholder to show, so :not() is
+   true, and a required empty field turns red the instant the page loads.
+   :user-invalid tracks interaction properly, so it is the right tool. */
+input:user-invalid, textarea:user-invalid, select:user-invalid {
+  border-color: #b4341f;
+}
+
+/* ---------- footer ---------- */
+footer { border-top: 1px solid var(--line); padding-block: 2rem; }
+footer p { max-width: 62rem; margin-inline: auto; margin-bottom: .25rem; }

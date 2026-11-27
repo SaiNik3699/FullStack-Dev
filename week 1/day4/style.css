@@ -1,0 +1,562 @@
+/* ===========================================================================
+   Day 4 — Styling the bio page
+   Week 1 · Thursday · Full Stack Developer Roadmap
+
+   TODAY'S FIVE TOPICS, and where each lives in this file:
+     1. Selectors   section 4 — a tour of every kind, on this real page
+     2. Colours     section 1 — custom properties, and the colour notations
+     3. Fonts       section 5 — families, sizes, weight, line-height
+     4. Units       section 1 — px vs rem vs em vs % vs ch, and clamp()
+     5. Box model   section 2 — box-sizing, and sections 6+ applying it
+
+   NOT TODAY: display, position, Flexbox, Grid. That is Friday.
+   Everything here is done with normal block flow and the box model alone —
+   which is further than most people expect to get.
+
+   THE HTML HAS NOT CHANGED. The <body> of this page is byte-for-byte the
+   same as day2/index.html. Every difference you see is this file.
+   =========================================================================== */
+
+
+/* ===========================================================================
+   1 · CUSTOM PROPERTIES  —  colours and units in one place
+   ---------------------------------------------------------------------------
+   A custom property is a variable. Declared on :root (which is the <html>
+   element) it is readable by every rule in the file via var().
+
+   Change --accent on the next line and the links, headings, table header,
+   blockquote bar and focus ring all move together. That is the entire
+   argument for working this way.
+   =========================================================================== */
+
+:root {
+  /* -- COLOUR ------------------------------------------------------------
+     Four ways to write the same teal. They are interchangeable:
+       #0d7d74                 hex           - most common
+       rgb(13 125 116)         red/green/blue
+       hsl(175 81% 27%)        hue/saturation/lightness - easiest to tweak
+       rgb(13 125 116 / 50%)   the slash adds alpha (transparency)
+
+     Name colours by their ROLE (accent, surface, border), never by their
+     appearance ("teal"). Roles survive a redesign; "teal" becomes a lie the
+     moment you change it to orange. */
+  --ink:          #16212e;   /* body text                      */
+  --ink-soft:     #3d4e61;   /* secondary text                 */
+  --muted:        #6b7f92;   /* captions, metadata             */
+  --accent:       #0d7d74;   /* links, emphasis                */
+  --accent-dark:  #09574f;   /* hover state                    */
+  --accent-wash:  #e6f4f2;   /* tinted backgrounds             */
+  --surface:      #ffffff;   /* the page                       */
+  --surface-alt:  #f5f8f9;   /* banded areas, table stripes    */
+  --border:       #dce6ea;   /* hairlines                      */
+  --highlight:    #ffe9a8;   /* <mark>                         */
+
+  /* -- UNITS -------------------------------------------------------------
+     The five that matter, and when to reach for each:
+
+       px    Fixed. 1px is 1px, always.
+             Use for: hairline borders, shadows. Things that should NOT
+             scale when someone enlarges their browser font.
+
+       rem   Relative to the ROOT font size (16px by default).
+             Use for: nearly everything else — text, padding, margins.
+             Because it respects the user's font-size preference.
+
+       em    Relative to the CURRENT element's font size.
+             Use for: spacing that should scale WITH its own text, like
+             padding inside a button.
+             Careful: em compounds when nested. rem never does.
+
+       %     Relative to the PARENT.
+             Use for: widths inside a container.
+
+       ch    The width of one "0" in the current font.
+             Use for: line length. 60ch is about 60 characters.             */
+  --text-sm:   0.875rem;   /* 14px */
+  --text-base: 1rem;       /* 16px */
+  --text-lg:   1.125rem;   /* 18px */
+
+  /* clamp(MINIMUM, PREFERRED, MAXIMUM) — fluid sizing with no media query.
+     This heading never drops below 1.75rem or grows past 2.75rem, and
+     scales with the window in between. Media queries are Week 2. */
+  --text-h1:   clamp(1.75rem, 5vw, 2.75rem);
+  --text-h2:   clamp(1.35rem, 3vw, 1.75rem);
+  --text-h3:   1.2rem;
+
+  /* One spacing scale, used everywhere. Choosing from a fixed set is what
+     makes a page look deliberate instead of "roughly aligned". */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+
+  --radius: 6px;
+
+  /* -- FONTS -------------------------------------------------------------
+     A font STACK, not a font. The browser tries each in turn and uses the
+     first one it has. Always end with a generic family (serif, sans-serif,
+     monospace) so there is always a fallback.
+
+     system-ui means "whatever this operating system uses" — San Francisco
+     on a Mac, Segoe UI on Windows. No download, no layout shift. */
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica,
+               Arial, sans-serif;
+  --font-head: Georgia, "Times New Roman", Times, serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+               "Liberation Mono", monospace;
+}
+
+
+/* ===========================================================================
+   2 · THE BOX MODEL  —  the most useful rule you learn this week
+   ---------------------------------------------------------------------------
+   Every element is a rectangle of four nested layers:
+
+       +-----------------------------------------+
+       |  MARGIN        space OUTSIDE the border |
+       |  +-----------------------------------+  |
+       |  |  BORDER      the visible edge     |  |
+       |  |  +-----------------------------+  |  |
+       |  |  |  PADDING  space INSIDE it   |  |  |
+       |  |  |  +-----------------------+  |  |  |
+       |  |  |  |  CONTENT  text, image |  |  |  |
+       |  |  |  +-----------------------+  |  |  |
+       |  |  +-----------------------------+  |  |
+       |  +-----------------------------------+  |
+       +-----------------------------------------+
+
+   Padding is INSIDE the border, so it takes the background colour.
+   Margin is OUTSIDE, so it is always transparent.
+
+   NOW THE IMPORTANT PART.  Given:
+       width: 300px;  padding: 20px;  border: 5px solid;
+
+     content-box  (the browser default)
+         300 + 20+20 + 5+5  =  350px actually on screen
+         You asked for 300 and got 350. Padding pushes OUTWARD.
+
+     border-box   (what the next rule sets)
+         300px on screen. Full stop.
+         Padding and border grow INWARD, eating into the 300.
+
+   The second behaviour is what everyone actually expects, and it is why
+   your three "33% wide" columns stop fitting the moment you add padding.
+   Applying it to everything — including ::before and ::after — is the
+   single highest-value line of CSS in this file.
+   =========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+
+/* ===========================================================================
+   3 · THE PAGE ITSELF
+   ---------------------------------------------------------------------------
+   No Flexbox needed to centre a page. Two properties do it:
+     max-width       stop growing past this
+     margin-inline   auto, which splits the leftover space evenly
+
+   margin-inline is the modern way to write "margin-left and margin-right".
+   The old form, margin: 0 auto, still works everywhere.
+   =========================================================================== */
+
+body {
+  max-width: 54rem;          /* ~864px — comfortable for reading     */
+  margin-inline: auto;       /* centres the whole page               */
+  margin-block: 0;
+  padding: var(--space-6) var(--space-5);
+
+  background-color: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+
+  /* Unitless line-height means "1.65 times this element's font size", and
+     it is inherited correctly by children. A line-height with units is a
+     classic subtle bug — children inherit the computed pixel value. */
+  line-height: 1.65;
+
+  -webkit-font-smoothing: antialiased;
+}
+
+
+/* ===========================================================================
+   4 · SELECTORS  —  a tour, using this page's real markup
+   ---------------------------------------------------------------------------
+   Notice that the HTML has almost no classes. That is deliberate: it forces
+   you to learn the selectors that actually read the document.
+
+   SPECIFICITY, lowest to highest:
+       element      h1            weakest
+       class        .card
+       id           #about        strongest (avoid styling with ids)
+       inline       style=""      stronger still
+       !important   nuclear       — if you need it, something else is wrong
+
+   Keep selectors SHALLOW. `.card h3` beats `section div article h3` every
+   time: easier to read, faster for the browser, and it does not break the
+   moment somebody moves the markup.
+   =========================================================================== */
+
+/* -- ATTRIBUTE SELECTORS ---------------------------------------------------
+   Match on an attribute's value. The operators:
+     [href]            has the attribute at all
+     [href="x"]        exactly x
+     [href^="x"]       STARTS with x        ^ like the regex anchor
+     [href$="x"]       ENDS with x          $ likewise
+     [href*="x"]       CONTAINS x                                        */
+
+/* Mark up external links automatically — no class needed in the HTML. */
+a[target="_blank"]::after {
+  content: " \2197";              /* ↗  an escaped unicode code point */
+  font-size: 0.8em;               /* em: scales with the link's own size */
+  color: var(--muted);
+}
+
+/* Email and phone links get their own small cue. */
+a[href^="mailto:"]::before { content: "\2709\00a0"; }   /* ✉ + nbsp */
+a[href^="tel:"]::before    { content: "\260E\00a0"; }   /* ☎ + nbsp */
+
+a[href^="mailto:"]::before,
+a[href^="tel:"]::before {
+  color: var(--muted);
+  font-size: 0.85em;
+}
+
+/* -- PSEUDO-CLASSES --------------------------------------------------------
+   A pseudo-class matches a STATE, not an element.                        */
+
+a:hover {
+  color: var(--accent-dark);
+}
+
+/* :focus-visible is the modern focus ring — it appears for keyboard users
+   and stays out of the way for mouse users. NEVER write `outline: none`
+   without replacing it here; you are removing the only cue a keyboard user
+   has about where they are. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* :not() excludes. This says "every li that is NOT the last one". */
+li:not(:last-child) {
+  margin-bottom: var(--space-2);
+}
+
+/* :nth-child(even) — zebra striping, with no classes in the markup. */
+tbody tr:nth-child(even) {
+  background-color: var(--surface-alt);
+}
+
+/* -- PSEUDO-ELEMENTS -------------------------------------------------------
+   A pseudo-element styles a generated SUB-PART of an element. Two colons
+   by convention, to tell them apart from pseudo-classes.                 */
+
+::selection {
+  background-color: var(--accent-wash);
+  color: var(--accent-dark);
+}
+
+/* ::marker styles the bullet or number of a list item on its own. */
+ul ::marker { color: var(--accent); }
+ol ::marker { color: var(--accent); font-weight: 600; }
+
+/* -- COMBINATORS -----------------------------------------------------------
+     A B    descendant — any B inside an A, at any depth
+     A > B  child      — only a DIRECT child
+     A + B  adjacent   — the B immediately after an A
+     A ~ B  sibling    — any B after an A, same parent                    */
+
+/* Adjacent sibling: space goes BETWEEN paragraphs, never before the first. */
+p + p {
+  margin-top: var(--space-4);
+}
+
+/* Child combinator: only lists directly inside the body get this margin,
+   not the nested ones inside a <li>. */
+body > ul,
+body > ol {
+  margin-bottom: var(--space-5);
+}
+
+
+/* ===========================================================================
+   5 · FONTS AND TYPOGRAPHY
+   =========================================================================== */
+
+h1, h2, h3 {
+  font-family: var(--font-head);
+  color: var(--ink);
+  line-height: 1.2;              /* tighter than body text — big type needs
+                                    less leading to look right */
+  text-wrap: balance;            /* evens out the last line of a heading */
+}
+
+h1 {
+  font-size: var(--text-h1);
+  letter-spacing: -0.02em;       /* large type looks loose; pull it in     */
+  margin-bottom: var(--space-2);
+}
+
+/* The adjacent-sibling combinator again: the paragraph immediately after
+   the h1 is the tagline, so it gets lead-paragraph treatment. No class
+   needed in the HTML — the selector reads the document's own structure. */
+h1 + p {
+  font-size: var(--text-lg);
+  color: var(--ink-soft);
+  max-width: 60ch;
+}
+
+h2 {
+  font-size: var(--text-h2);
+  margin-top: var(--space-7);
+  margin-bottom: var(--space-3);
+  padding-bottom: var(--space-2);
+  border-bottom: 2px solid var(--accent-wash);
+
+  /* An anchor jump lands the heading at the very top edge otherwise. */
+  scroll-margin-top: var(--space-4);
+}
+
+h3 {
+  font-size: var(--text-h3);
+  color: var(--accent-dark);
+  margin-top: var(--space-5);
+  margin-bottom: var(--space-2);
+}
+
+p {
+  /* ch units: roughly this many characters per line. 65–75 is the readable
+     range — beyond it the eye loses the start of the next line. */
+  max-width: 68ch;
+  margin: 0;
+}
+
+strong { font-weight: 650; color: var(--ink); }
+em     { font-style: italic; }
+
+/* currentColor means "whatever this element's color is", so the underline
+   always matches the text without being written twice. */
+abbr[title] {
+  text-decoration: underline dotted currentColor;
+  text-underline-offset: 0.2em;
+  cursor: help;
+}
+
+mark {
+  background-color: var(--highlight);
+  color: var(--ink);
+  padding: 0.1em 0.25em;
+  border-radius: 3px;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;            /* em, so inline code shrinks to match
+                                    whatever text it sits inside */
+  background-color: var(--surface-alt);
+  color: var(--accent-dark);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+
+small { color: var(--muted); font-size: var(--text-sm); }
+
+cite { color: var(--muted); font-style: italic; }
+
+sup, sub { font-size: 0.7em; }
+
+
+/* ===========================================================================
+   6 · LINKS
+   =========================================================================== */
+
+a {
+  color: var(--accent);
+  text-decoration: underline;
+
+  /* Pushes the underline clear of letter descenders (g, y, p) instead of
+     slicing through them. */
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 1px;
+}
+
+
+/* ===========================================================================
+   7 · THE IMAGE
+   ---------------------------------------------------------------------------
+   max-width: 100% is the one rule that stops an image ever overflowing its
+   container. height: auto keeps the aspect ratio while it scales.
+   =========================================================================== */
+
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 50%;                     /* a circle, from a square      */
+  border: 4px solid var(--accent-wash);   /* border: width style colour   */
+  background-color: var(--surface-alt);
+  margin-bottom: var(--space-4);
+}
+
+
+/* ===========================================================================
+   8 · LISTS
+   =========================================================================== */
+
+ul, ol {
+  padding-left: var(--space-5);   /* the indent comes from padding, not
+                                     margin — that is where the markers sit */
+  margin-top: var(--space-3);
+}
+
+/* A nested list sits closer to its parent item. */
+li > ul,
+li > ol {
+  margin-top: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+/* Description lists get a two-level look with no extra markup. */
+dt {
+  font-weight: 650;
+  color: var(--ink);
+  margin-top: var(--space-3);
+}
+
+dd {
+  margin-left: 0;                 /* browsers indent dd by 40px by default */
+  padding-left: var(--space-4);
+  border-left: 2px solid var(--border);
+  color: var(--ink-soft);
+}
+
+
+/* ===========================================================================
+   9 · BLOCKQUOTE  —  the box model doing real work
+   ---------------------------------------------------------------------------
+   No border on three sides, a thick one on the left, and padding to hold
+   the text off it. That is the whole effect.
+   =========================================================================== */
+
+blockquote {
+  margin: var(--space-5) 0;
+  padding: var(--space-4) var(--space-5);
+
+  border-left: 4px solid var(--accent);
+  background-color: var(--accent-wash);
+  border-radius: 0 var(--radius) var(--radius) 0;
+
+  color: var(--ink-soft);
+  font-style: italic;
+}
+
+blockquote p { max-width: none; }
+
+
+/* ===========================================================================
+   10 · TABLES
+   ---------------------------------------------------------------------------
+   border-collapse: collapse merges adjacent cell borders into one line.
+   Without it you get a doubled, slightly gappy grid — the single most
+   recognisable "unstyled table" look.
+   =========================================================================== */
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: var(--space-4) 0 var(--space-5);
+  font-size: var(--text-sm);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;              /* clips the corners to the radius */
+}
+
+caption {
+  caption-side: top;
+  text-align: left;
+  padding: var(--space-3) var(--space-1);
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+
+th, td {
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--border);
+}
+
+thead th {
+  background-color: var(--accent-wash);
+  color: var(--accent-dark);
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+/* Row headers — the first column — in the accent colour. */
+tbody th {
+  color: var(--accent-dark);
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+tfoot {
+  background-color: var(--surface-alt);
+  font-weight: 650;
+}
+
+/* :last-child removes the hairline under the final row. */
+tbody tr:last-child th,
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+
+/* ===========================================================================
+   11 · THE HORIZONTAL RULE
+   ---------------------------------------------------------------------------
+   <hr> has a default 3D border in most browsers. Strip it and draw one
+   clean line.
+   =========================================================================== */
+
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: var(--space-6) 0;
+}
+
+
+/* ===========================================================================
+   12 · MARGIN COLLAPSE  —  the other box-model surprise
+   ---------------------------------------------------------------------------
+   Two VERTICAL margins that touch merge into one, and the bigger wins:
+
+       element A   margin-bottom: 2rem
+       element B   margin-top:    1rem
+       actual gap  2rem, not 3rem
+
+   Horizontal margins never collapse. Neither do margins inside a flex or
+   grid container — which is a quiet argument for `gap`, on Friday.
+
+   It is a feature, not a bug: it is what stops stacked paragraphs from
+   doubling their spacing. But it surprises everyone the first time.
+   =========================================================================== */
+
+h2 + p,
+h3 + p {
+  margin-top: var(--space-2);
+}
+
+/* The very first element should not push the page down twice. */
+body > :first-child {
+  margin-top: 0;
+}

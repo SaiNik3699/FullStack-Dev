@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<!-- Week 2 · Day 3 (Wednesday) — transitions, hover effects, CSS variables.
+     The three belong together: variables hold the values, hover changes
+     them, and a transition makes the change happen over time instead of
+     instantly. -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Polished buttons and cards — transitions, hover effects and CSS custom properties." />
+  <title>Buttons &amp; cards — polished</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <header class="head">
+    <p class="eyebrow">Week 2 · Wednesday · Transitions &amp; variables</p>
+    <h1>Polished buttons and cards</h1>
+    <p class="lead">
+      Every variant below is the same CSS, with one custom property
+      overridden. Hover, and focus with the <kbd>Tab</kbd> key — both are
+      styled, because a mouse is not the only way in.
+    </p>
+  </header>
+
+  <main>
+
+    <!-- BUTTONS — one base class, re-themed by overriding --accent -->
+    <section>
+      <h2>Buttons</h2>
+      <p>
+        One <code>.btn</code> rule. Each variant sets <code>--accent</code> on
+        itself, and every colour in the button is derived from it.
+      </p>
+      <div class="row">
+        <button class="btn">Default</button>
+        <button class="btn btn--danger">Delete</button>
+        <button class="btn btn--go">Publish</button>
+        <button class="btn btn--ghost">Cancel</button>
+        <button class="btn" disabled>Disabled</button>
+      </div>
+
+      <h3>Sizes, from one variable</h3>
+      <p><code>--btn-pad</code> and <code>--btn-size</code> scale the whole control.</p>
+      <div class="row row--mid">
+        <button class="btn btn--sm">Small</button>
+        <button class="btn">Medium</button>
+        <button class="btn btn--lg">Large</button>
+      </div>
+    </section>
+
+    <!-- TIMING — the same move, five curves, so the difference is visible -->
+    <section>
+      <h2>Timing functions</h2>
+      <p>
+        Hover each bar. Same distance, same 600ms — only the curve differs.
+        <code>ease-out</code> is the usual choice for things entering;
+        <code>ease-in</code> for things leaving.
+      </p>
+      <ul class="timings">
+        <li><span class="t t--linear"></span><code>linear</code></li>
+        <li><span class="t t--ease"></span><code>ease</code></li>
+        <li><span class="t t--in"></span><code>ease-in</code></li>
+        <li><span class="t t--out"></span><code>ease-out</code></li>
+        <li><span class="t t--spring"></span><code>cubic-bezier(.34,1.56,.64,1)</code></li>
+      </ul>
+    </section>
+
+    <!-- CARDS — hover lift, and a variant that re-themes itself -->
+    <section>
+      <h2>Cards</h2>
+      <p>
+        The lift uses <code>transform</code> and <code>box-shadow</code> only.
+        Both are cheap for the browser to animate; <code>top</code> and
+        <code>height</code> are not.
+      </p>
+      <div class="cards">
+
+        <article class="card">
+          <p class="card__kicker">Default</p>
+          <h3>Spring Boot service</h3>
+          <p>A REST API with the tests that keep it honest.</p>
+          <a class="card__link" href="#cards">Read more</a>
+        </article>
+
+        <article class="card card--go">
+          <p class="card__kicker">Live</p>
+          <h3>Message broker</h3>
+          <p>Publishers and subscribers that never meet.</p>
+          <a class="card__link" href="#cards">Read more</a>
+        </article>
+
+        <article class="card card--danger">
+          <p class="card__kicker">Deprecated</p>
+          <h3>Legacy SOAP endpoint</h3>
+          <p>Still running. Not for much longer.</p>
+          <a class="card__link" href="#cards">Read more</a>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- The point about variables that preprocessors cannot do -->
+    <section>
+      <h2>Why these are not Sass variables</h2>
+      <p>
+        A Sass variable is replaced at build time and then gone. A CSS custom
+        property is <strong>live in the browser</strong>: it inherits down the
+        tree, so overriding it on a parent re-themes everything inside.
+      </p>
+      <div class="scope-demo">
+        <div class="scope">
+          <p class="scope__label">Default scope</p>
+          <button class="btn">Button</button>
+          <span class="chip">Chip</span>
+        </div>
+        <div class="scope scope--warm">
+          <p class="scope__label">One line: <code>--accent: #b45309</code></p>
+          <button class="btn">Button</button>
+          <span class="chip">Chip</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p class="muted">Week 2 · Day 3 — transitions, hover, variables. Tomorrow: Git.</p>
+  </footer>
+
+</body>
+</html>

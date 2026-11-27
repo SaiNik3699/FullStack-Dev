@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 860" width="1020" height="860"
+     role="img" aria-labelledby="diagram-title diagram-desc"
+     font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+
+  <title id="diagram-title">The life of a web request</title>
+  <desc id="diagram-desc">A sequence diagram showing the nine steps between typing a URL and seeing a rendered page: DNS lookup, TCP and TLS handshake, HTTP request, HTTP response, sub-resource requests, and render.</desc>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#4f46e5" />
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#047857" />
+    </marker>
+    <marker id="arrow-grey" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#6b7280" />
+    </marker>
+  </defs>
+
+  <rect width="1020" height="860" fill="#ffffff" />
+
+  <!-- ===== Heading ===== -->
+  <text x="40" y="48" font-size="26" font-weight="700" fill="#111827">The life of a web request</text>
+  <text x="40" y="76" font-size="15" fill="#6b7280">What happens between pressing Enter and seeing the page &#8212; Week 1, Day 1</text>
+
+  <!-- ===== Lifeline headers ===== -->
+  <!-- Browser -->
+  <rect x="40" y="104" width="230" height="56" rx="10" fill="#eef2ff" stroke="#4f46e5" stroke-width="2" />
+  <text x="155" y="130" font-size="15" font-weight="700" fill="#4338ca" text-anchor="middle">CLIENT &#8212; your browser</text>
+  <text x="155" y="149" font-size="12" fill="#6b7280" text-anchor="middle">Chrome on your laptop</text>
+
+  <!-- DNS -->
+  <rect x="400" y="104" width="220" height="56" rx="10" fill="#fffbeb" stroke="#b45309" stroke-width="2" />
+  <text x="510" y="130" font-size="15" font-weight="700" fill="#b45309" text-anchor="middle">DNS RESOLVER</text>
+  <text x="510" y="149" font-size="12" fill="#6b7280" text-anchor="middle">the internet's phone book</text>
+
+  <!-- Server -->
+  <rect x="750" y="104" width="230" height="56" rx="10" fill="#ecfdf5" stroke="#047857" stroke-width="2" />
+  <text x="865" y="130" font-size="15" font-weight="700" fill="#047857" text-anchor="middle">SERVER</text>
+  <text x="865" y="149" font-size="12" fill="#6b7280" text-anchor="middle">Node.js + Express</text>
+
+  <!-- ===== Lifelines ===== -->
+  <line x1="155" y1="160" x2="155" y2="690" stroke="#c7d2fe" stroke-width="2" stroke-dasharray="6 6" />
+  <line x1="510" y1="160" x2="510" y2="330" stroke="#fde68a" stroke-width="2" stroke-dasharray="6 6" />
+  <line x1="865" y1="160" x2="865" y2="690" stroke="#a7f3d0" stroke-width="2" stroke-dasharray="6 6" />
+
+  <!-- ===== Step 1: type URL ===== -->
+  <circle cx="155" cy="200" r="15" fill="#4f46e5" />
+  <text x="155" y="205" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">1</text>
+  <rect x="185" y="183" width="300" height="34" rx="8" fill="#f9fafb" stroke="#e5e7eb" />
+  <text x="199" y="205" font-size="13" fill="#1f2937">You type https://example.com and press Enter</text>
+
+  <!-- ===== Step 2: DNS query ===== -->
+  <line x1="155" y1="256" x2="498" y2="256" stroke="#4f46e5" stroke-width="2.5" marker-end="url(#arrow)" />
+  <circle cx="155" cy="256" r="15" fill="#4f46e5" />
+  <text x="155" y="261" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">2</text>
+  <text x="330" y="247" font-size="13" font-weight="600" fill="#4338ca" text-anchor="middle">"What IP is example.com?"</text>
+
+  <!-- ===== Step 3: DNS answer ===== -->
+  <line x1="510" y1="306" x2="170" y2="306" stroke="#b45309" stroke-width="2.5" marker-end="url(#arrow-grey)" />
+  <circle cx="510" cy="306" r="15" fill="#b45309" />
+  <text x="510" y="311" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">3</text>
+  <text x="340" y="297" font-size="13" font-weight="600" fill="#b45309" text-anchor="middle">"93.184.216.34"</text>
+
+  <!-- ===== Step 4: TCP + TLS ===== -->
+  <line x1="155" y1="366" x2="853" y2="366" stroke="#6b7280" stroke-width="2.5" stroke-dasharray="8 5" marker-end="url(#arrow-grey)" />
+  <circle cx="155" cy="366" r="15" fill="#6b7280" />
+  <text x="155" y="371" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">4</text>
+  <text x="510" y="357" font-size="13" font-weight="600" fill="#4b5563" text-anchor="middle">TCP connection, then the TLS handshake (that is the "s" in https)</text>
+
+  <!-- ===== Step 5: HTTP request ===== -->
+  <line x1="155" y1="430" x2="853" y2="430" stroke="#4f46e5" stroke-width="2.5" marker-end="url(#arrow)" />
+  <circle cx="155" cy="430" r="15" fill="#4f46e5" />
+  <text x="155" y="435" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">5</text>
+  <text x="510" y="421" font-size="13" font-weight="600" fill="#4338ca" text-anchor="middle">HTTP REQUEST</text>
+
+  <rect x="330" y="442" width="360" height="74" rx="8" fill="#1f2937" />
+  <text x="348" y="464" font-size="12.5" font-family="ui-monospace, Menlo, Consolas, monospace" fill="#a5b4fc">GET / HTTP/1.1</text>
+  <text x="348" y="482" font-size="12.5" font-family="ui-monospace, Menlo, Consolas, monospace" fill="#e5e7eb">Host: example.com</text>
+  <text x="348" y="500" font-size="12.5" font-family="ui-monospace, Menlo, Consolas, monospace" fill="#e5e7eb">Accept: text/html</text>
+
+  <!-- ===== Step 6: server work ===== -->
+  <rect x="780" y="536" width="200" height="56" rx="8" fill="#ecfdf5" stroke="#047857" />
+  <circle cx="865" cy="528" r="15" fill="#047857" />
+  <text x="865" y="533" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">6</text>
+  <text x="880" y="559" font-size="12.5" fill="#065f46" text-anchor="middle">Server matches the route,</text>
+  <text x="880" y="577" font-size="12.5" fill="#065f46" text-anchor="middle">reads data, builds a reply</text>
+
+  <!-- ===== Step 7: HTTP response ===== -->
+  <line x1="865" y1="624" x2="170" y2="624" stroke="#047857" stroke-width="2.5" marker-end="url(#arrow-green)" />
+  <circle cx="865" cy="624" r="15" fill="#047857" />
+  <text x="865" y="629" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">7</text>
+  <text x="510" y="615" font-size="13" font-weight="600" fill="#047857" text-anchor="middle">HTTP RESPONSE</text>
+
+  <rect x="330" y="636" width="360" height="74" rx="8" fill="#1f2937" />
+  <text x="348" y="658" font-size="12.5" font-family="ui-monospace, Menlo, Consolas, monospace" fill="#6ee7b7">HTTP/1.1 200 OK</text>
+  <text x="348" y="676" font-size="12.5" font-family="ui-monospace, Menlo, Consolas, monospace" fill="#e5e7eb">Content-Type: text/html</text>
+  <text x="348" y="694" font-size="12.5" font-family="ui-monospace, Menlo, Consolas, monospace" fill="#e5e7eb">&lt;!DOCTYPE html&gt; ...</text>
+
+  <!-- ===== Step 8: sub-resources ===== -->
+  <rect x="40" y="736" width="460" height="92" rx="10" fill="#eef2ff" stroke="#4f46e5" />
+  <circle cx="68" cy="730" r="15" fill="#4f46e5" />
+  <text x="68" y="735" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">8</text>
+  <text x="60" y="763" font-size="13.5" font-weight="700" fill="#4338ca">The browser parses the HTML...</text>
+  <text x="60" y="784" font-size="12.5" fill="#374151">...finds &lt;link&gt;, &lt;script&gt; and &lt;img&gt; tags, and fires off</text>
+  <text x="60" y="802" font-size="12.5" fill="#374151">a brand-new request for every single one of them.</text>
+  <text x="60" y="820" font-size="12.5" font-style="italic" fill="#6b7280">One page = dozens of round trips. Steps 5-7, repeated.</text>
+
+  <!-- ===== Step 9: render ===== -->
+  <rect x="540" y="736" width="440" height="92" rx="10" fill="#ecfdf5" stroke="#047857" />
+  <circle cx="568" cy="730" r="15" fill="#047857" />
+  <text x="568" y="735" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">9</text>
+  <text x="560" y="763" font-size="13.5" font-weight="700" fill="#047857">...then paints the page</text>
+  <text x="560" y="784" font-size="12.5" fill="#374151">HTML becomes the DOM tree, CSS becomes the CSSOM,</text>
+  <text x="560" y="802" font-size="12.5" fill="#374151">the two combine into a render tree, and pixels appear.</text>
+  <text x="560" y="820" font-size="12.5" font-style="italic" fill="#6b7280">Total: usually under a second.</text>
+</svg>

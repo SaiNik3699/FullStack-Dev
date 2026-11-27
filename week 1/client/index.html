@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<!--
+  ===========================================================================
+  index.html - Personal bio page
+  ---------------------------------------------------------------------------
+  Day 2 (Tue)  built the structure: headings, text, links, images, lists, table
+  Day 4 (Thu)  added the stylesheet: colours, fonts, units, box model
+  Day 5 (Fri)  added the Flexbox navbar and the card row
+  Day 6 (Sat)  polished it into the finished page you are reading
+
+  Want to see the Tuesday version with no CSS at all?
+  Open steps/day-02-bio-html-only.html
+  ===========================================================================
+-->
+<html lang="en">
+<head>
+  <!-- How this file should be decoded. Always first, always utf-8. -->
+  <meta charset="UTF-8" />
+
+  <!-- Tells phones to use the real device width instead of pretending to be
+       a 980px desktop. Week 2 builds on this for media queries. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Shown by Google and by link previews. Not visible on the page itself. -->
+  <meta name="description" content="Personal bio page built in Week 1 of a 3-month full stack roadmap." />
+
+  <!-- The text in the browser tab. -->
+  <title>Rudraraju Sai Nikhil Varma | Full Stack in Progress</title>
+
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+
+  <!-- One stylesheet to load; it imports the rest. See css/main.css -->
+  <link rel="stylesheet" href="css/main.css" />
+</head>
+
+<body>
+  <!-- Keyboard and screen-reader users can jump straight past the navbar.
+       The link is invisible until it receives focus (see css/base/a11y.css). -->
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <!-- =====================================================================
+       HEADER + NAVBAR          (Day 5 - Flexbox)
+       <header> and <nav> are semantic tags: they describe WHAT the element is,
+       not how it looks. A <div> would render identically but tell assistive
+       technology nothing.
+       ===================================================================== -->
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="index.html">
+        <span class="brand__mark" aria-hidden="true">W1</span>
+        <span class="brand__text">Week&nbsp;1</span>
+      </a>
+
+      <nav class="nav" aria-label="Main navigation">
+        <ul class="nav__list">
+          <li><a class="nav__link is-active" href="index.html">Home</a></li>
+          <li><a class="nav__link" href="#skills">Skills</a></li>
+          <li><a class="nav__link" href="#projects">Projects</a></li>
+          <li><a class="nav__link" href="#roadmap">Roadmap</a></li>
+          <li><a class="nav__link nav__link--button" href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- <main> marks the one block of content unique to this page.
+       There must be exactly one per page. -->
+  <main id="main">
+
+    <!-- ===================================================================
+         HERO                   (Day 2 - headings, images, links)
+         =================================================================== -->
+    <section class="hero">
+      <div class="container hero__inner">
+        <div class="hero__text">
+          <p class="eyebrow">Month 1 &middot; Week 1</p>
+
+          <!-- Exactly one <h1> per page. It is the page's title, not a
+               font size - use CSS when you want big text. -->
+          <h1 class="hero__title">Hi, I&rsquo;m Sai Nikhil.</h1>
+
+          <p class="hero__lead">
+            Full Stack Developer in Hyderabad, learning the web one layer
+            at a time &mdash; plain HTML and CSS this week, the full MERN stack
+            by week&nbsp;12.
+          </p>
+
+          <div class="hero__actions">
+            <a class="button button--primary" href="#projects">See this week&rsquo;s work</a>
+            <a class="button button--ghost" href="contact.html">Get in touch</a>
+          </div>
+        </div>
+
+        <!-- Every <img> needs alt text describing the image's purpose.
+             Decorative images get alt="" so screen readers skip them. -->
+        <img class="hero__avatar"
+             src="assets/avatar.svg"
+             alt="Illustrated avatar of Sai Nikhil"
+             width="200" height="200" />
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         ABOUT                  (Day 2 - paragraphs and inline tags)
+         =================================================================== -->
+    <section class="section" id="about">
+      <div class="container">
+        <h2 class="section__title">About me</h2>
+
+        <p>
+          I am three months into a plan that ends with a deployed full stack
+          application. Week&nbsp;1 is deliberately unglamorous: understanding
+          what actually happens between typing a URL and seeing a page, then
+          writing <strong>HTML</strong> and <strong>CSS</strong> by hand before
+          any framework gets involved.
+        </p>
+
+        <p>
+          The page you are reading is served by a small
+          <a href="https://expressjs.com/" target="_blank" rel="noopener noreferrer">Express</a>
+          server running on my laptop. Open DevTools &rarr; Network and reload:
+          every file listed there is one HTTP request.
+          <!-- rel="noopener noreferrer" is a security habit for target="_blank":
+               it stops the new tab from getting a handle on this one. -->
+        </p>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         SKILLS                 (Day 2 - unordered lists)
+         =================================================================== -->
+    <section class="section section--muted" id="skills">
+      <div class="container">
+        <h2 class="section__title">Skills</h2>
+        <p class="section__subtitle">Where I am right now, honestly.</p>
+
+        <ul class="skill-list">
+          <li class="skill">
+            <span class="skill__name">HTML</span>
+            <span class="badge badge--now">Learning &middot; Week 1</span>
+          </li>
+          <li class="skill">
+            <span class="skill__name">CSS</span>
+            <span class="badge badge--now">Learning &middot; Week 1</span>
+          </li>
+          <li class="skill">
+            <span class="skill__name">Git &amp; GitHub</span>
+            <span class="badge badge--next">Next &middot; Week 2</span>
+          </li>
+          <li class="skill">
+            <span class="skill__name">JavaScript</span>
+            <span class="badge badge--next">Next &middot; Week 3</span>
+          </li>
+          <li class="skill">
+            <span class="skill__name">React</span>
+            <span class="badge badge--later">Planned &middot; Week 5</span>
+          </li>
+          <li class="skill">
+            <span class="skill__name">Node &amp; Express</span>
+            <span class="badge badge--later">Planned &middot; Week 7</span>
+          </li>
+          <li class="skill">
+            <span class="skill__name">MongoDB</span>
+            <span class="badge badge--later">Planned &middot; Week 8</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         PROJECTS               (Day 5 - Flexbox card row)
+         Each card is an <article> because it stands on its own.
+         =================================================================== -->
+    <section class="section" id="projects">
+      <div class="container">
+        <h2 class="section__title">This week&rsquo;s builds</h2>
+        <p class="section__subtitle">Three deliverables, one per build day.</p>
+
+        <div class="card-row">
+          <article class="card">
+            <p class="card__day">Tuesday</p>
+            <h3 class="card__title">Personal bio page</h3>
+            <p class="card__body">
+              Pure HTML &mdash; headings, links, images, lists and a table, with
+              no stylesheet at all, so the browser&rsquo;s defaults are on show.
+            </p>
+            <ul class="tag-list">
+              <li class="tag">HTML</li>
+            </ul>
+            <a class="card__link" href="steps/day-02-bio-html-only.html">View unstyled version &rarr;</a>
+          </article>
+
+          <article class="card">
+            <p class="card__day">Wednesday</p>
+            <h3 class="card__title">Contact form</h3>
+            <p class="card__body">
+              An accessible form with real labels and browser-native validation
+              via <code>required</code>, <code>type</code> and <code>pattern</code>.
+            </p>
+            <ul class="tag-list">
+              <li class="tag">Forms</li>
+              <li class="tag">Semantics</li>
+            </ul>
+            <a class="card__link" href="contact.html">Open the form &rarr;</a>
+          </article>
+
+          <article class="card">
+            <p class="card__day">Thu &amp; Fri</p>
+            <h3 class="card__title">Styled with Flexbox</h3>
+            <p class="card__body">
+              CSS variables, a predictable box model, a Flexbox navbar and this
+              very card row that wraps when the screen shrinks.
+            </p>
+            <ul class="tag-list">
+              <li class="tag">Box model</li>
+              <li class="tag">Flexbox</li>
+            </ul>
+            <a class="card__link" href="steps/day-05-flexbox-playground.html">Flexbox playground &rarr;</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         ROADMAP TABLE          (Day 2 - tables)
+         A table is for DATA with rows and columns. Never for page layout -
+         that is what Flexbox and Grid are for.
+         =================================================================== -->
+    <section class="section section--muted" id="roadmap">
+      <div class="container">
+        <h2 class="section__title">Week 1 at a glance</h2>
+        <p class="section__subtitle">Study Monday to Saturday. Sunday is revision.</p>
+
+        <!-- The wrapper lets a wide table scroll sideways on a phone instead
+             of stretching the whole page. -->
+        <div class="table-wrap">
+          <table class="table">
+            <caption class="table__caption">
+              Month 1 &middot; Week 1 &mdash; How the web works, HTML and CSS basics
+            </caption>
+
+            <!-- scope="col" tells a screen reader that these head cells label
+                 their whole column. -->
+            <thead>
+              <tr>
+                <th scope="col">Day</th>
+                <th scope="col">Learn</th>
+                <th scope="col">Build</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <th scope="row">Mon</th>
+                <td>Client, server, HTTP, DNS; frontend vs backend; install VS&nbsp;Code</td>
+                <td>Notes + a diagram of a web request</td>
+              </tr>
+              <tr>
+                <th scope="row">Tue</th>
+                <td>HTML structure, headings, text, links, images, lists, tables</td>
+                <td>Personal bio page</td>
+              </tr>
+              <tr>
+                <th scope="row">Wed</th>
+                <td>HTML forms and semantic tags</td>
+                <td>Contact form + semantic layout</td>
+              </tr>
+              <tr>
+                <th scope="row">Thu</th>
+                <td>CSS selectors, colours, fonts, units, box model</td>
+                <td>Style the bio page</td>
+              </tr>
+              <tr>
+                <th scope="row">Fri</th>
+                <td><code>display</code>, <code>position</code>, Flexbox</td>
+                <td>Navbar + card row with Flexbox</td>
+              </tr>
+              <tr>
+                <th scope="row">Sat</th>
+                <td>Build day</td>
+                <td>Finished, styled bio page</td>
+              </tr>
+              <tr>
+                <th scope="row">Sun</th>
+                <td>Revision</td>
+                <td>Revise the box model and Flexbox</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =====================================================================
+       FOOTER
+       ===================================================================== -->
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <p class="site-footer__text">
+        Built by hand in Week&nbsp;1 &mdash; no frameworks, no shortcuts.
+      </p>
+      <p class="site-footer__text">
+        <a href="/api/profile">/api/profile</a> &middot;
+        <a href="/docs/day-01-how-the-web-works.md">Day 1 notes</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- Scripts go last so the HTML renders before JavaScript is fetched.
+       This one is a tiny Week 4 preview - see the file for what it does. -->
+  <script src="js/request-demo.js" defer></script>
+</body>
+</html>

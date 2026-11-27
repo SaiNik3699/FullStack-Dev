@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<!--
+  ===========================================================================
+  Day 3 — Contact form + semantic layout
+  Week 1 · Wednesday · Full Stack Developer Roadmap
+
+  TODAY'S TWO TOPICS
+
+  A. SEMANTIC TAGS — where each one is on this page
+       <header>   the band at the top, with the nav inside it
+       <nav>      the block of major links
+       <main>     the one block of content unique to this page
+       <section>  a themed group, each with its own heading
+       <aside>    related, but not essential — "other ways to reach me"
+       <figure>   self-contained illustrative content, with a caption
+       <address>  contact details for the nearest article or the page
+       <time>     a machine-readable date or duration
+       <footer>   closing information
+
+     EVERY ONE OF THESE RENDERS EXACTLY LIKE A <div>.
+     The difference is meaning: screen readers jump between them, search
+     engines understand them, and your own CSS stays readable on Thursday.
+
+  B. FORMS — labels, fieldsets, input types, native validation
+       See section 2. Every field is wired to a <label>, grouped in a
+       <fieldset>, and validated by the browser itself — no JavaScript.
+
+  NO CSS. NO JAVASCRIPT. CSS is Thursday.
+  ===========================================================================
+-->
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Contact Rudraraju Sai Nikhil Varma — built with semantic HTML and native browser validation, no JavaScript." />
+  <meta name="author" content="Rudraraju Sai Nikhil Varma" />
+  <title>Contact — Rudraraju Sai Nikhil Varma</title>
+</head>
+
+<body>
+
+  <!-- ======================================================================
+       <header> — introductory content for the page.
+       A page may have several (one per section); this one is the page's own.
+       ====================================================================== -->
+  <header>
+    <p><strong>Rudraraju Sai Nikhil Varma</strong> — Full Stack Developer</p>
+
+    <!-- <nav> marks a block of MAJOR navigation links. Not every group of
+         links needs one — a list of citations does not. aria-label names
+         it, which matters when a page has more than one nav. -->
+    <nav aria-label="Main navigation">
+      <ul>
+        <!-- A RELATIVE link out to another page: .. goes up one folder
+             (to "week 1"), then down into day2. -->
+        <li><a href="../day2/index.html">My bio page</a></li>
+
+        <!-- SAME-PAGE links. Each href="#x" jumps to the element whose
+             id is exactly x, further down this page. -->
+        <li><a href="#contact-form">Contact form</a></li>
+        <li><a href="#other-ways">Other ways to reach me</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <hr />
+
+  <!-- ======================================================================
+       <main> — the one block of content unique to this page.
+       EXACTLY ONE per page, and it must not sit inside header, nav,
+       article, aside or footer. Screen readers offer "skip to main".
+       ====================================================================== -->
+  <main>
+
+    <h1>Get in touch</h1>
+
+    <p>
+      Every field below is checked by the browser itself — no JavaScript is
+      involved anywhere on this page.
+    </p>
+
+    <p>
+      New here? Start with
+      <a href="../day2/index.html">my bio page</a> — my background, skills
+      and the projects I have shipped.
+    </p>
+
+    <!-- ====================================================================
+         <section> — a themed group of content. A section should have a
+         heading; if it does not, you probably wanted a <div>.
+         ==================================================================== -->
+    <section id="contact-form">
+
+      <h2>Send me a message</h2>
+
+      <!--
+        THE FORM ELEMENT
+          action  where the data goes
+          method  HOW it travels
+                    GET  - appended to the URL as a query string.
+                           Visible, bookmarkable, length-limited.
+                    POST - sent in the request body.
+                           Used for anything private or large.
+
+        This form uses GET, pointing back at this same page, ON PURPOSE:
+        submit it and your answers appear in the address bar as
+            index.html?name=Nikhil&email=...&topic=hiring
+        That IS the request Monday's diagram described. In Week 7 an Express
+        POST route replaces it.
+
+        novalidate would switch the browser's checking OFF. We want it on.
+      -->
+      <form action="index.html" method="get">
+
+        <!-- ================================================================
+             <fieldset> groups related controls. <legend> names the group,
+             and a screen reader announces it before each field inside.
+             ================================================================ -->
+        <fieldset>
+          <legend>Who you are</legend>
+
+          <p>
+            <!--
+              THE LABEL RULE
+              label's "for" must equal input's "id". That pairing is what
+              makes clicking the label focus the input, and what tells a
+              screen reader which text describes which box.
+              A placeholder is NOT a label - it disappears as soon as you
+              type, and some screen readers ignore it entirely.
+            -->
+            <label for="name">Full name (required)</label><br />
+            <input type="text"
+                   id="name"
+                   name="name"
+                   placeholder="Rudraraju Sai Nikhil Varma"
+                   autocomplete="name"
+                   minlength="2"
+                   maxlength="60"
+                   required />
+          </p>
+
+          <p>
+            <!-- type="email" gives free format checking AND an email
+                 keyboard on phones. -->
+            <label for="email">Email (required)</label><br />
+            <input type="email"
+                   id="email"
+                   name="email"
+                   placeholder="you@example.com"
+                   autocomplete="email"
+                   required />
+          </p>
+
+          <p>
+            <!--
+              pattern is a regular expression the WHOLE value must match.
+              title explains the rule when validation fails.
+
+              WATCH OUT: browsers compile pattern with the regex `v` flag,
+              where ( ) - [ ] { } are syntax characters that MUST be escaped
+              inside a character class. Write [0-9 ()-] and the pattern fails
+              to compile — at which point the browser SILENTLY IGNORES the
+              attribute and the field accepts anything. No error, no warning.
+              So: \( \) \-   and always test a value you expect it to REJECT.
+            -->
+            <label for="phone">Phone (optional)</label><br />
+            <input type="tel"
+                   id="phone"
+                   name="phone"
+                   placeholder="+91 97052 15556"
+                   autocomplete="tel"
+                   pattern="[+]?[0-9 \(\)\-]{7,20}"
+                   title="Digits, spaces, brackets and dashes only (7 to 20 characters)" />
+          </p>
+
+          <p>
+            <!-- type="url" requires a full URL including the scheme. -->
+            <label for="website">Your website (optional)</label><br />
+            <input type="url"
+                   id="website"
+                   name="website"
+                   placeholder="https://example.com"
+                   autocomplete="url" />
+          </p>
+        </fieldset>
+
+        <fieldset>
+          <legend>What you need</legend>
+
+          <p>
+            <!-- A <select> is right when there are more than about five
+                 fixed choices. <optgroup> groups them under a label. -->
+            <label for="topic">What is this about?</label><br />
+            <select id="topic" name="topic">
+              <option value="">Choose one&hellip;</option>
+              <optgroup label="Work">
+                <option value="hiring">A role or contract</option>
+                <option value="freelance">Freelance project</option>
+                <option value="collaboration">Collaboration</option>
+              </optgroup>
+              <optgroup label="Other">
+                <option value="mentoring">Mentoring</option>
+                <option value="feedback">Feedback on my work</option>
+                <option value="something-else">Something else</option>
+              </optgroup>
+            </select>
+          </p>
+
+          <p>
+            <!-- <datalist> gives SUGGESTIONS while still allowing any text.
+                 The input's list="" must match the datalist's id. -->
+            <label for="tech">Which technology? (suggestions, but type anything)</label><br />
+            <input type="text" id="tech" name="tech" list="tech-options" />
+            <datalist id="tech-options">
+              <option value="Java"></option>
+              <option value="Spring Boot"></option>
+              <option value="Microservices"></option>
+              <option value="REST APIs"></option>
+              <option value="React"></option>
+              <option value="PostgreSQL"></option>
+            </datalist>
+          </p>
+
+          <p>
+            <!-- type="number" with min/max/step. Note that it still arrives
+                 at the server as TEXT - always re-check it there. -->
+            <label for="team-size">How many people on your team?</label><br />
+            <input type="number" id="team-size" name="team_size"
+                   min="1" max="5000" step="1" placeholder="25" />
+          </p>
+
+          <p>
+            <!-- type="date" gives a native date picker. -->
+            <label for="callback">Preferred callback date</label><br />
+            <input type="date" id="callback" name="callback" min="2026-11-17" />
+          </p>
+
+          <!-- ==============================================================
+               RADIO BUTTONS — pick ONE from a short list.
+               They are grouped by sharing the same `name`.
+               Each needs its own unique `id`.
+               Wrapping the input inside its <label> makes the whole row
+               clickable and needs no for/id pairing at all.
+               ============================================================== -->
+          <fieldset>
+            <legend>How soon do you need a reply?</legend>
+
+            <p>
+              <label>
+                <input type="radio" name="urgency" value="whenever" checked />
+                Whenever suits you
+              </label>
+            </p>
+            <p>
+              <label>
+                <input type="radio" name="urgency" value="this-week" />
+                This week
+              </label>
+            </p>
+            <p>
+              <label>
+                <input type="radio" name="urgency" value="today" />
+                Today
+              </label>
+            </p>
+          </fieldset>
+
+          <p>
+            <!-- A textarea's value goes BETWEEN the tags, never in a value
+                 attribute. Leave it empty for an empty box - any whitespace
+                 you put here becomes the starting content.
+
+                 SPEC QUIRK worth knowing: minlength (and maxlength) only
+                 apply once the value has been changed BY THE USER. Set the
+                 value from JavaScript and the browser reports it as valid
+                 no matter how short it is. Type the same text by hand and
+                 it is correctly rejected. So test these by typing, not by
+                 scripting - otherwise you will "prove" a rule works when
+                 it never ran. -->
+            <label for="message">Message (required)</label><br />
+            <textarea id="message"
+                      name="message"
+                      rows="6"
+                      cols="40"
+                      minlength="10"
+                      placeholder="Tell me what you are working on&hellip;"
+                      required></textarea>
+          </p>
+
+          <p>
+            <!-- type="file" — accept narrows what the picker offers. -->
+            <label for="brief">Attach a brief (optional)</label><br />
+            <input type="file" id="brief" name="brief"
+                   accept=".pdf,.doc,.docx,.txt" />
+          </p>
+        </fieldset>
+
+        <fieldset>
+          <legend>Before you send</legend>
+
+          <!-- A CHECKBOX is an independent yes/no. Unlike radios, each one
+               stands alone - and an unchecked box sends NOTHING at all. -->
+          <p>
+            <label>
+              <input type="checkbox" name="newsletter" value="yes" />
+              Send me occasional notes about what I am building
+            </label>
+          </p>
+
+          <p>
+            <label>
+              <input type="checkbox" name="consent" value="yes" required />
+              I am happy for you to reply to the address above (required)
+            </label>
+          </p>
+        </fieldset>
+
+        <!-- A HIDDEN input is not shown and not editable, but IS submitted.
+             Useful for context the user should not have to type.
+             Never put anything secret here - "hidden" only means invisible;
+             View Page Source shows it immediately. -->
+        <input type="hidden" name="source" value="day3-contact-page" />
+
+        <p>
+          <!--
+            ALWAYS set type on a button inside a form.
+            The default is "submit", which surprises people who wanted an
+            ordinary button and end up submitting the form by accident.
+              submit  send the form
+              reset   clear every field back to its default
+              button  do nothing on its own (needs JavaScript)
+          -->
+          <button type="submit">Send message</button>
+          <button type="reset">Clear the form</button>
+        </p>
+
+        <p>
+          <small>
+            Nothing leaves your machine. This form does a GET back to this
+            same page, so you can watch your answers land in the address bar.
+          </small>
+        </p>
+      </form>
+    </section>
+
+    <hr />
+
+    <!-- ====================================================================
+         <aside> — content related to the page, but not essential to it.
+         A sidebar, a pull quote, a related-links box.
+         ==================================================================== -->
+    <aside id="other-ways">
+      <h2>Other ways to reach me</h2>
+
+      <!-- <address> is specifically for the contact details of the nearest
+           <article>, or of the whole document. It is NOT for postal
+           addresses in general — a shipping address in a table is just a
+           table cell. Browsers render it italic by default. -->
+      <address>
+        <p>
+          Email:
+          <a href="mailto:nikhilvarmarudraraju66@gmail.com">nikhilvarmarudraraju66@gmail.com</a>
+        </p>
+        <p>
+          Phone:
+          <a href="tel:+919705215556">+91 97052 15556</a>
+        </p>
+        <p>
+          LinkedIn:
+          <a href="https://www.linkedin.com/in/sai-nikhil-varma-rudraraju/"
+             target="_blank" rel="noopener noreferrer">
+            linkedin.com/in/sai-nikhil-varma-rudraraju
+          </a>
+        </p>
+        <p>Based in Hyderabad, India.</p>
+      </address>
+
+      <p>
+        Prefer to read first? My
+        <a href="../day2/index.html">bio page</a> has my skills, experience
+        and projects in full.
+      </p>
+
+      <!-- <time> gives machines an unambiguous value while humans read the
+           friendly text. The datetime attribute takes a date (2026-11-17),
+           a time (14:30), or a duration (PT24H = a period of 24 hours). -->
+      <p>
+        I usually reply within <time datetime="PT24H">24 hours</time>,
+        and always within <time datetime="P3D">three days</time>.
+      </p>
+    </aside>
+
+    <hr />
+
+    <!-- ====================================================================
+         <figure> wraps self-contained illustrative content — an image, a
+         diagram, a code sample — that could be moved elsewhere without
+         breaking the surrounding text. <figcaption> is its caption, and
+         goes first or last inside the figure.
+         ==================================================================== -->
+    <figure>
+      <img src="avatar.svg"
+           alt="Illustrated avatar of Sai Nikhil"
+           width="120" height="120" />
+      <figcaption>
+        That is me — or a placeholder standing in for me until I swap in a
+        real photograph.
+      </figcaption>
+    </figure>
+
+    <hr />
+
+  </main>
+
+  <hr />
+
+  <!-- ======================================================================
+       <footer> — closing information for its nearest section, or for the
+       whole page when it sits at this level. Authorship, copyright, links.
+       ====================================================================== -->
+  <footer>
+    <p>
+      <small>
+        Week 1, Day 3 — forms and semantic tags. Written by hand in plain
+        HTML. No CSS, no JavaScript. &copy; 2026 Rudraraju Sai Nikhil Varma.
+      </small>
+    </p>
+    <p><small><a href="../day2/index.html">&larr; Back to my bio page</a></small></p>
+  </footer>
+
+</body>
+</html>

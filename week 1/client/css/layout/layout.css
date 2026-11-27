@@ -1,0 +1,201 @@
+/* ===========================================================================
+   layout/layout.css                   (Day 5 - display, position, Flexbox)
+   ---------------------------------------------------------------------------
+   DISPLAY - what kind of box is this, and how do its children behave?
+     block         full width, stacks vertically      (div, p, section)
+     inline        sits in the text flow, ignores width/height  (span, a)
+     inline-block  sits in the flow BUT accepts width/height    (buttons)
+     flex          children become flex items, laid out in a row or column
+     none          removed from the page entirely (not just invisible)
+
+   POSITION - where is the box placed?
+     static    the default; follows normal flow. top/left do nothing.
+     relative  normal flow, then nudged. Creates a reference for children.
+     absolute  removed from flow; positioned against the nearest positioned
+               ancestor (the nearest one that is NOT static).
+     fixed     positioned against the viewport; stays put while you scroll.
+     sticky    behaves like relative until it hits a threshold, then sticks.
+   =========================================================================== */
+
+/* -- Container -------------------------------------------------------------
+   The horizontal rails of the whole site. One class, used on every section,
+   so every block of content lines up down the page.
+
+   `margin-inline: auto` centres it: the browser splits the leftover space
+   equally between the two side margins.                                     */
+.container {
+  width: 100%;
+  max-width: var(--container-width);
+  margin-inline: auto;
+  padding-inline: var(--space-5);
+}
+
+/* -- Section ---------------------------------------------------------------
+   Consistent vertical rhythm between the big blocks of the page.            */
+.section {
+  padding-block: var(--space-8);
+}
+
+.section--muted {
+  background-color: var(--color-surface-muted);
+  border-block: 1px solid var(--color-border);
+}
+
+.section__title {
+  margin-bottom: var(--space-2);
+}
+
+.section__subtitle {
+  color: var(--color-text-muted);
+  font-size: var(--text-lg);
+  margin-bottom: var(--space-6);
+}
+
+/* -- Hero ------------------------------------------------------------------
+   FLEXBOX, lesson one. Two properties do most of the work:
+
+     justify-content  position along the MAIN axis   (horizontal by default)
+     align-items      position along the CROSS axis  (vertical by default)
+
+   Switch flex-direction to column and the two axes swap. That single idea
+   trips up almost everyone at first - draw the axes on paper once and it
+   stops being confusing.                                                    */
+.hero {
+  padding-block: var(--space-8) var(--space-7);
+  background:
+    radial-gradient(circle at 15% 0%, var(--color-primary-light), transparent 55%);
+}
+
+.hero__inner {
+  display: flex;
+  align-items: center;             /* vertically centre both children       */
+  justify-content: space-between;  /* text left, avatar right               */
+  gap: var(--space-7);             /* space BETWEEN items only - never on
+                                      the outside edges, unlike margin      */
+  flex-wrap: wrap;                 /* when there is no room, drop to a new
+                                      line instead of squashing             */
+}
+
+.hero__text {
+  /* flex: <grow> <shrink> <basis>
+       grow   1  -> take any spare space
+       shrink 1  -> give space back when cramped
+       basis  28rem -> the size to start negotiating from
+     Together: "aim for 28rem, stretch if there is room, wrap below that." */
+  flex: 1 1 28rem;
+}
+
+.hero__title {
+  margin-bottom: var(--space-4);
+}
+
+.hero__lead {
+  font-size: var(--text-lg);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-5);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.hero__avatar {
+  /* flex: 0 0 auto -> do not grow, do not shrink, keep your natural size. */
+  flex: 0 0 auto;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  box-shadow: var(--shadow-md);
+}
+
+/* -- Split (two columns that stack on their own) ---------------------------
+   No media query needed. Each column states a flex-basis; as soon as both
+   bases no longer fit side by side, flex-wrap drops the second one below.
+   Week 2 adds media queries for the cases this cannot handle.               */
+.split {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-6);
+  align-items: flex-start;
+}
+
+.split__main {
+  flex: 1 1 30rem;   /* the wider column - wins the extra space */
+}
+
+.split__aside {
+  flex: 1 1 18rem;   /* the narrower column */
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* -- Skill list ------------------------------------------------------------ */
+.skill-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  max-width: 34rem;
+}
+
+.skill {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;  /* name pinned left, badge pinned right */
+  gap: var(--space-4);
+
+  padding: var(--space-3) var(--space-4);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.skill__name {
+  font-weight: 600;
+  color: var(--color-heading);
+}
+
+/* -- Panel (used inside the aside) ----------------------------------------- */
+.panel {
+  padding: var(--space-5);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.panel--tip {
+  background-color: var(--color-primary-light);
+  border-color: transparent;
+}
+
+.panel__title {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--color-heading);
+  margin-bottom: var(--space-3);
+}
+
+.panel__address {
+  font-style: normal;   /* <address> is italic by default; we do not want that */
+  font-size: var(--text-sm);
+}
+
+.panel__address p + p {
+  margin-top: var(--space-3);
+}
+
+.panel__meta {
+  margin-top: var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.tip-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+}

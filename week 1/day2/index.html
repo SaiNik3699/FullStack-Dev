@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<!--
+  ===========================================================================
+  Day 2 — Personal bio page
+  Week 1 · Tuesday · Full Stack Developer Roadmap
+
+  TODAY'S SEVEN TOPICS, and where each one is on this page:
+
+    1. structure   the <head> below, and the shape of the whole document
+    2. headings    <h1> <h2> <h3>  — section 1 onward
+    3. text        <p> <strong> <em> <abbr> <q> <blockquote> <mark> <hr>
+    4. links       <a>  — section 3: email, phone, external, download, anchor
+    5. images      <img>  — section 1
+    6. lists       <ul> <ol> <dl>  — sections 2, 4, 5, 6
+    7. tables      <table>  — sections 7 and 8
+
+  NO CSS. NO JAVASCRIPT.
+  Everything you see — heading sizes, blue underlined links, bullets,
+  table borders — is the browser's own default stylesheet. CSS doesn't
+  create those things, it overrides them. That's Thursday's job.
+  ===========================================================================
+-->
+<html lang="en">
+
+<!-- ========== 1 · STRUCTURE — information ABOUT the page ========== -->
+<head>
+  <!-- How to decode this file. Always first, always utf-8. -->
+  <meta charset="UTF-8" />
+
+  <!-- Use the phone's real width instead of faking a 980px desktop. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Shown by search engines and link previews, never on the page. -->
+  <meta name="description" content="Rudraraju Sai Nikhil Varma — Full Stack Developer. Java, Spring Boot and REST APIs." />
+  <meta name="author" content="Rudraraju Sai Nikhil Varma" />
+
+  <!-- The browser tab. -->
+  <title>Rudraraju Sai Nikhil Varma — Bio</title>
+</head>
+
+<body>
+
+  <!-- ======================================================================
+       HEADINGS + TEXT + IMAGES
+       Headings are an OUTLINE, not font sizes. h1 → h2 → h3, in order,
+       never skipping. Exactly one <h1> per page.
+       ====================================================================== -->
+  <h1>Rudraraju Sai Nikhil Varma</h1>
+
+  <!-- <strong> = important.  <em> = emphasis.  The meaning is the point;
+       bold and italic are just how the browser shows it. -->
+  <p>
+    <strong>Full Stack Developer</strong> based in Hyderabad, India.
+    <em>3+ years</em> building web and enterprise applications in Java and
+    JEE — mostly Spring Boot microservices and REST APIs.
+  </p>
+
+  <!-- IMAGES
+       src    the file, relative to this one
+       alt    what the image conveys — read aloud by screen readers and
+              shown if the image fails to load. Never omit it.
+       width  reserve the space so the page doesn't jump while loading
+       height -->
+  <img src="avatar.svg"
+       alt="Illustrated avatar of Sai Nikhil"
+       width="150" height="150" />
+
+  <!-- ======================================================================
+       2 · LISTS + LINKS — an in-page table of contents
+       <ol> because the order is the reading order.
+       href="#about" jumps to the element with id="about".
+       ====================================================================== -->
+  <h2>On this page</h2>
+
+  <ol>
+    <li><a href="#about">About me</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#skills">Technical skills</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#week1">This week's plan</a></li>
+  </ol>
+
+  <!-- A thematic break between sections. -->
+  <hr />
+
+  <!-- ======================================================================
+       3 · TEXT — the inline tags
+       ====================================================================== -->
+  <h2 id="about">About me</h2>
+
+  <!-- <abbr title> gives the expansion. Browsers show it on hover. -->
+  <p>
+    I am a software engineer with three-plus years developing web and
+    enterprise applications using Java and
+    <abbr title="Jakarta Enterprise Edition">JEE</abbr> on a microservices
+    architecture. Most of my work is <strong>Spring Boot</strong>,
+    <strong>Hibernate</strong> and <strong>REST APIs</strong> — designing
+    them, building them, and writing the
+    <abbr title="A Java unit-testing framework">JUnit</abbr> tests that keep
+    them honest.
+  </p>
+
+  <p>
+    I work across the full <abbr title="Software Development Life Cycle">SDLC</abbr>
+    — analysis, design, implementation and testing — in
+    <abbr title="An Agile framework built around fixed-length sprints">Scrum</abbr>
+    teams practising test-driven development. I lean on
+    <abbr title="Object-Oriented Programming">OOP</abbr> fundamentals, because
+    they are what keep a service readable a year later.
+  </p>
+
+  <!-- <q> is a SHORT inline quote — the browser adds the quote marks. -->
+  <p>
+    The idea that reframed how I build things was
+    <q>the client is never trustworthy</q> — every rule that matters belongs
+    on the server.
+  </p>
+
+  <!-- <blockquote> is a longer quote. Put the text in a <p> inside it,
+       and name the source with <cite>. -->
+  <blockquote cite="https://spring.io/projects/spring-boot">
+    <p>
+      Spring Boot makes it easy to create stand-alone, production-grade
+      Spring based applications that you can just run.
+    </p>
+  </blockquote>
+  <p><cite>— the Spring Boot project description</cite></p>
+
+  <!-- <mark> = highlighted for the reader's attention right here. -->
+  <p>
+    What I am adding now:
+    <mark>the frontend half of the stack</mark> — React beyond the basics,
+    and the HTML and CSS underneath it, written by hand.
+  </p>
+
+  <hr />
+
+  <!-- ======================================================================
+       4 · LINKS — every kind
+       ====================================================================== -->
+  <h2 id="contact">Contact</h2>
+
+  <ul>
+    <!-- mailto: opens the visitor's email client. -->
+    <li>
+      Email:
+      <a href="mailto:nikhilvarmarudraraju66@gmail.com">nikhilvarmarudraraju66@gmail.com</a>
+    </li>
+
+    <!-- tel: makes the number tappable on a phone.
+         Full international form, digits only after the +. -->
+    <li>
+      Phone:
+      <a href="tel:+919705215556">+91 97052 15556</a>
+    </li>
+
+    <!-- An ABSOLUTE url goes to another site.
+         target="_blank" opens a new tab, and rel="noopener noreferrer"
+         is the security habit that goes with it. -->
+    <li>
+      LinkedIn:
+      <a href="https://www.linkedin.com/in/sai-nikhil-varma-rudraraju/"
+         target="_blank" rel="noopener noreferrer">
+        linkedin.com/in/sai-nikhil-varma-rudraraju
+      </a>
+    </li>
+
+    <li>
+      <!-- TODO: your GitHub username -->
+      GitHub:
+      <a href="https://github.com/" target="_blank" rel="noopener noreferrer">
+        github.com/your-username
+      </a>
+    </li>
+
+    <!-- A SAME-PAGE anchor. -->
+    <li><a href="#projects">Jump to my projects</a></li>
+  </ul>
+
+  <hr />
+
+  <!-- ======================================================================
+       5 · LISTS — nested
+       THE RULE PEOPLE GET WRONG: a nested <ul> goes INSIDE the <li> it
+       belongs to, before that </li> closes — never as a sibling between
+       two <li> elements.
+       ====================================================================== -->
+  <h2 id="skills">Technical skills</h2>
+
+  <!-- Unordered, because no category outranks another. -->
+  <ul>
+    <li>
+      Languages
+      <ul>
+        <li>Java — including Java 8 features</li>
+        <li>Core Java, Collections, Multithreading</li>
+        <li>JavaScript, HTML</li>
+      </ul>
+    </li>
+
+    <li>
+      Frameworks
+      <ul>
+        <li>Spring Boot, Spring Cloud</li>
+        <li>Spring — <abbr title="Inversion of Control">IOC</abbr>, Dependency Injection, Spring MVC</li>
+        <li>Hibernate — <abbr title="Object-Relational Mapping">ORM</abbr></li>
+        <li>React JS</li>
+      </ul>
+    </li>
+
+    <li>
+      Web services
+      <ul>
+        <li>RESTful APIs</li>
+        <li>SOAP</li>
+        <li>Kafka, ActiveMQ</li>
+      </ul>
+    </li>
+
+    <li>
+      Databases
+      <ul>
+        <li>Oracle</li>
+        <li>MySQL</li>
+        <li>PostgreSQL</li>
+      </ul>
+    </li>
+
+    <li>
+      Cloud
+      <ul>
+        <li>
+          AWS
+          <!-- A third level. Nest as deep as the information goes, no deeper. -->
+          <ul>
+            <li>S3 — application file storage</li>
+          </ul>
+        </li>
+        <li><abbr title="Google Cloud Platform">GCP</abbr></li>
+      </ul>
+    </li>
+
+    <li>
+      Tools
+      <ul>
+        <li>Maven, Gradle, Log4j</li>
+        <li>Eclipse, <abbr title="Spring Tool Suite">STS</abbr>, VS Code</li>
+        <li>Postman, ServiceNow, Git</li>
+        <li>JUnit, Agile / Scrum</li>
+      </ul>
+    </li>
+  </ul>
+
+  <hr />
+
+  <!-- ======================================================================
+       6 · LISTS — a description list
+       <dl> holds term/description pairs. One <dt> can have several <dd>s,
+       which is what a <ul> would flatten.
+       ====================================================================== -->
+  <h2 id="education">Education</h2>
+
+  <dl>
+    <dt>Bachelor of Technology</dt>
+    <dd>Visvesvaraya National Institute of Technology, Nagpur, India</dd>
+    <dd>Graduated 2023</dd>
+
+    <dt>Full Stack Developer Roadmap</dt>
+    <dd>Self-directed, three months, six study days a week</dd>
+    <dd>Currently week 1 of 12 — HTML and CSS foundations</dd>
+  </dl>
+
+  <hr />
+
+  <!-- ======================================================================
+       7 · LISTS — an ordered list, and its attributes
+       <ol> when the order IS the information.
+         start="3"   begin at 3
+         reversed    count downward
+         type="a"    a, b, c  (also "A", "i", "I", "1")
+       ====================================================================== -->
+  <h2 id="projects">Projects</h2>
+
+  <p>Most recent first:</p>
+
+  <!-- reversed counts down, so the newest carries the highest number. -->
+  <ol reversed>
+    <li>
+      <h3>Account Management Application — Pacific Life</h3>
+
+      <p>
+        An application giving advisors and investors one view of an account:
+        values, statements, transaction history, and dividend and
+        capital-gains information.
+      </p>
+
+      <ul>
+        <li>Built the front end with <strong>React JS</strong>, and wrote its test cases</li>
+        <li>Wrote JUnit test cases for the service layer</li>
+        <li>Stored application files in an <strong>AWS S3</strong> bucket</li>
+        <li>Worked on <abbr title="Google Cloud Platform">GCP</abbr>-based applications</li>
+        <li>Implemented <abbr title="Security Assertion Markup Language">SAML</abbr> connectors for <abbr title="Single Sign-On">SSO</abbr></li>
+        <li>Worked with onsite and offshore teams to resolve customer issues</li>
+      </ul>
+
+      <p>
+        <strong>Environment:</strong> Java 8, Java/J2EE, RESTful services,
+        Microservices, Spring Boot, React JS, Maven, JUnit, AWS
+      </p>
+    </li>
+
+    <li>
+      <h3>Transactional Message Broker — Baker Hughes</h3>
+
+      <p>
+        A message broker letting publishers and subscribers communicate
+        without knowing about each other. The broker façade stores all
+        message information behind one interface.
+      </p>
+
+      <ul>
+        <li>Designed and implemented the <strong>REST API</strong> for publishers, subscribers and messages</li>
+        <li>Implemented the OpenAPI spec document</li>
+        <li>Implemented validation for all publishers and subscribers</li>
+        <li>Implemented the services for message subscribers</li>
+        <li>Wrote JUnit test cases</li>
+      </ul>
+
+      <p>
+        <strong>Environment:</strong> Java 8, Java/J2EE, RESTful services,
+        ActiveMQ / Kafka, Spring Boot, Microservices, Maven, JUnit, PostgreSQL
+      </p>
+    </li>
+  </ol>
+
+  <hr />
+
+  <!-- ======================================================================
+       8 · TABLES
+       A table is for DATA in rows and columns. NEVER for page layout.
+
+       The parts, in the order they must appear:
+         <caption>  the title — keep it inside the table
+         <thead>    the header row
+         <tbody>    the data
+         <tfoot>    a summary row (written after tbody, shown last)
+
+       scope="col"  this cell labels its whole COLUMN
+       scope="row"  this cell labels its whole ROW
+       These let a screen reader say "Message Broker, Client: Baker Hughes"
+       instead of reading disconnected cells.
+
+       border="1" is a LEGACY attribute, here only so the structure is
+       visible with no CSS. Thursday replaces it with a CSS border.
+       ====================================================================== -->
+  <h2 id="experience">Experience</h2>
+
+  <p>
+    <strong>Trueblue IT Consulting Services Pvt. Ltd.</strong> —
+    Software Engineer, July 2023 to present.
+  </p>
+
+  <table border="1">
+    <caption>Client projects delivered at Trueblue IT Consulting</caption>
+
+    <thead>
+      <tr>
+        <th scope="col">Employer</th>
+        <th scope="col">Project</th>
+        <th scope="col">Client</th>
+        <th scope="col">Role</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <!-- rowspan="2" makes this one cell cover two rows, so the row BELOW
+           carries one FEWER cell. That off-by-one is where most broken
+           tables come from — count each row against the header. -->
+      <tr>
+        <th scope="row" rowspan="2">Trueblue IT Consulting</th>
+        <td>Transactional Message Broker</td>
+        <td>Baker Hughes</td>
+        <td>Developer</td>
+      </tr>
+      <tr>
+        <td>Account Management Application</td>
+        <td>Pacific Life</td>
+        <td>Developer</td>
+      </tr>
+    </tbody>
+
+    <tfoot>
+      <!-- colspan="3" makes one cell as wide as three columns. -->
+      <tr>
+        <td colspan="3">Time in role</td>
+        <td>3+ years</td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <hr />
+
+  <!-- ======================================================================
+       9 · TABLES — a second one, with both kinds of span
+       ====================================================================== -->
+  <h2 id="week1">This week's plan</h2>
+
+  <table border="1">
+    <caption>Month 1, Week 1 — how the web works, HTML and CSS basics</caption>
+
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+        <th scope="col">Day</th>
+        <th scope="col">Learn</th>
+        <th scope="col">Build</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <!-- One "Study" cell covering six rows. -->
+      <tr>
+        <th scope="row" rowspan="6">Study</th>
+        <td>Mon</td>
+        <td>Client, server, HTTP, DNS</td>
+        <td>Notes + a request diagram</td>
+      </tr>
+      <tr>
+        <td>Tue</td>
+        <td>HTML structure, text, links, images, lists, tables</td>
+        <td><strong>This page</strong></td>
+      </tr>
+      <tr>
+        <td>Wed</td>
+        <td>Forms and semantic tags</td>
+        <td>Contact form</td>
+      </tr>
+      <tr>
+        <td>Thu</td>
+        <td>CSS selectors, colours, units, the box model</td>
+        <td>Style this page</td>
+      </tr>
+      <tr>
+        <td>Fri</td>
+        <td>display, position, Flexbox</td>
+        <td>Navbar + card row</td>
+      </tr>
+      <tr>
+        <td>Sat</td>
+        <td>Build day</td>
+        <td>The finished, styled page</td>
+      </tr>
+
+      <tr>
+        <th scope="row">Rest</th>
+        <td>Sun</td>
+        <td colspan="2">Revision — the box model and Flexbox</td>
+      </tr>
+    </tbody>
+
+    <tfoot>
+      <tr>
+        <td colspan="3">Hours this week</td>
+        <td>about 21</td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <hr />
+
+  <!-- ======================================================================
+       TEXT — <small> is for fine print, not "make this smaller"
+       ====================================================================== -->
+  <p>
+    <small>
+      Week 1, Day 2 — written by hand in plain HTML. No CSS, no JavaScript,
+      no frameworks. &copy; 2026.
+    </small>
+  </p>
+
+  <p><small><a href="#about">Back to the top</a></small></p>
+
+</body>
+</html>

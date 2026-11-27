@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<!--
+  ===========================================================================
+  day-05-flexbox-playground.html          (Day 5 - display, position, Flexbox)
+  ---------------------------------------------------------------------------
+  A sandbox you can poke at. Every demo below is deliberately small so you can
+  change ONE value, reload, and see exactly what moved.
+
+  The CSS for the demo boxes lives in a <style> block on this page rather than
+  in /css. That is the right call here: these rules exist only to demonstrate
+  a concept, are never reused, and keeping them beside the markup means you
+  read the rule and its result together. Real reusable styles still belong in
+  their own files.
+  ===========================================================================
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 5 - Flexbox playground</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+  <link rel="stylesheet" href="../css/main.css" />
+
+  <style>
+    /* ---- Demo scaffolding (not part of the real site) ------------------ */
+
+    .demo {
+      margin-bottom: var(--space-7);
+    }
+
+    .demo__label {
+      display: inline-block;
+      margin-bottom: var(--space-2);
+      padding: var(--space-1) var(--space-3);
+      background-color: var(--color-heading);
+      color: #fff;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      border-radius: var(--radius-sm);
+    }
+
+    /* The dashed grey area that represents the flex CONTAINER. */
+    .box-set {
+      border: 2px dashed var(--color-border);
+      border-radius: var(--radius-md);
+      padding: var(--space-4);
+      background-color: var(--color-surface-muted);
+      min-height: 7rem;
+    }
+
+    /* The purple squares that represent flex ITEMS. */
+    .box {
+      display: grid;
+      place-items: center;
+      min-width: 4.5rem;
+      min-height: 3rem;
+      padding: var(--space-2) var(--space-3);
+      background-color: var(--color-primary);
+      color: #fff;
+      font-weight: 650;
+      border-radius: var(--radius-sm);
+    }
+
+    .box--tall  { min-height: 5.5rem; }
+    .box--alt   { background-color: #0ea5e9; }
+
+    /* ---- 1. display ---------------------------------------------------- */
+    .d-block        { display: block;        background: var(--color-primary-light); padding: var(--space-2); margin-bottom: var(--space-2); }
+    .d-inline       { display: inline;       background: #fde68a; padding: var(--space-2); }
+    .d-inline-block { display: inline-block; background: #bbf7d0; padding: var(--space-2); width: 9rem; }
+
+    /* ---- 2. position --------------------------------------------------- */
+    .pos-stage {
+      position: relative;      /* the REFERENCE for the absolute child below */
+      height: 9rem;
+      border: 2px dashed var(--color-border);
+      border-radius: var(--radius-md);
+      background-color: var(--color-surface-muted);
+    }
+
+    .pos-static   { background: #e5e7eb; padding: var(--space-2); display: inline-block; }
+
+    .pos-relative {
+      position: relative;      /* keeps its original space, then shifts */
+      top: 12px;
+      left: 24px;
+      background: #fde68a;
+      padding: var(--space-2);
+      display: inline-block;
+    }
+
+    .pos-absolute {
+      position: absolute;      /* leaves the flow entirely */
+      bottom: 10px;
+      right: 10px;
+      background: var(--color-primary);
+      color: #fff;
+      padding: var(--space-2) var(--space-3);
+      border-radius: var(--radius-sm);
+      font-size: var(--text-sm);
+    }
+
+    /* ---- 3. Flexbox axes ----------------------------------------------- */
+    .flex-row    { display: flex; gap: var(--space-3); }
+    .flex-col    { display: flex; flex-direction: column; gap: var(--space-3); }
+
+    .jc-start    { display: flex; gap: var(--space-3); justify-content: flex-start; }
+    .jc-center   { display: flex; gap: var(--space-3); justify-content: center; }
+    .jc-between  { display: flex; gap: var(--space-3); justify-content: space-between; }
+    .jc-around   { display: flex; gap: var(--space-3); justify-content: space-around; }
+
+    .ai-stretch  { display: flex; gap: var(--space-3); align-items: stretch; height: 7rem; }
+    .ai-center   { display: flex; gap: var(--space-3); align-items: center;  height: 7rem; }
+    .ai-end      { display: flex; gap: var(--space-3); align-items: flex-end; height: 7rem; }
+
+    /* ---- 4. flex-grow / shrink / basis --------------------------------- */
+    .grow-demo   { display: flex; gap: var(--space-3); }
+    .grow-1      { flex: 1 1 auto; }
+    .grow-2      { flex: 2 1 auto; }
+    .grow-0      { flex: 0 0 6rem; }
+
+    /* ---- 5. The box model ---------------------------------------------- */
+    .bm-stage { display: flex; flex-wrap: wrap; gap: var(--space-5); }
+
+    .bm-box {
+      width: 220px;
+      padding: 20px;
+      border: 6px solid var(--color-primary-dark);
+      background-color: var(--color-primary-light);
+      color: var(--color-heading);
+      font-size: var(--text-sm);
+      /* background-clip keeps the padding colour visible so the layers are
+         easy to tell apart. */
+      background-clip: padding-box;
+    }
+
+    /* The whole point of the comparison. */
+    .bm-box--content { box-sizing: content-box; }   /* 220 + 40 + 12 = 272px */
+    .bm-box--border  { box-sizing: border-box;  }   /* exactly 220px         */
+
+    .bm-ruler {
+      height: 10px;
+      background: repeating-linear-gradient(90deg,
+        var(--color-primary) 0 10px, transparent 10px 20px);
+      margin-top: var(--space-2);
+      border-radius: 2px;
+    }
+  </style>
+</head>
+
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="../index.html">
+        <span class="brand__mark" aria-hidden="true">W1</span>
+        <span class="brand__text">Week&nbsp;1</span>
+      </a>
+      <nav class="nav" aria-label="Main navigation">
+        <ul class="nav__list">
+          <li><a class="nav__link" href="../index.html">Home</a></li>
+          <li><a class="nav__link is-active" href="day-05-flexbox-playground.html">Playground</a></li>
+          <li><a class="nav__link nav__link--button" href="../contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="section">
+      <div class="container">
+        <p class="eyebrow">Day 5 &middot; Friday</p>
+        <h1>Flexbox playground</h1>
+        <p class="section__subtitle">
+          Open DevTools, click any dashed container, and toggle the properties
+          live. Breaking these on purpose is the fastest way to learn them.
+        </p>
+
+        <!-- ============================================================
+             1. DISPLAY
+             ============================================================ -->
+        <div class="demo">
+          <h2>1. <code>display</code> &mdash; what kind of box is this?</h2>
+          <p class="text-muted">
+            Notice that the yellow <code>inline</code> element ignores the width
+            you give it. That is not a bug &mdash; inline boxes are sized by
+            their content, full stop.
+          </p>
+
+          <span class="demo__label">display: block</span>
+          <div class="box-set">
+            <div class="d-block">block &mdash; takes the full width, stacks vertically</div>
+            <div class="d-block">block &mdash; so this lands on a new line</div>
+          </div>
+
+          <span class="demo__label" style="margin-top: var(--space-4)">display: inline vs inline-block</span>
+          <div class="box-set">
+            <span class="d-inline">inline (width is ignored)</span>
+            <span class="d-inline">inline</span>
+            <span class="d-inline-block">inline-block (width: 9rem works)</span>
+          </div>
+        </div>
+
+        <!-- ============================================================
+             2. POSITION
+             ============================================================ -->
+        <div class="demo">
+          <h2>2. <code>position</code> &mdash; where does the box sit?</h2>
+          <p class="text-muted">
+            The purple pill is <code>absolute</code>. It anchors to the dashed
+            stage because that stage is <code>position: relative</code>. Remove
+            the relative and it would fly out to the page corner instead.
+          </p>
+
+          <span class="demo__label">static / relative / absolute</span>
+          <div class="pos-stage">
+            <span class="pos-static">static (the default)</span>
+            <span class="pos-relative">relative: top 12px, left 24px</span>
+            <span class="pos-absolute">absolute: bottom 10px, right 10px</span>
+          </div>
+        </div>
+
+        <!-- ============================================================
+             3. THE TWO AXES
+             ============================================================ -->
+        <div class="demo">
+          <h2>3. The two axes</h2>
+          <p class="text-muted">
+            <code>justify-content</code> works along the MAIN axis.
+            <code>align-items</code> works along the CROSS axis.
+            Change <code>flex-direction</code> to <code>column</code> and the
+            two swap places. That is the whole trick.
+          </p>
+
+          <span class="demo__label">flex-direction: row (main axis = horizontal)</span>
+          <div class="box-set flex-row">
+            <div class="box">1</div>
+            <div class="box">2</div>
+            <div class="box">3</div>
+          </div>
+
+          <span class="demo__label" style="margin-top: var(--space-4)">flex-direction: column (main axis = vertical)</span>
+          <div class="box-set flex-col">
+            <div class="box">1</div>
+            <div class="box">2</div>
+            <div class="box">3</div>
+          </div>
+        </div>
+
+        <!-- ============================================================
+             4. JUSTIFY-CONTENT
+             ============================================================ -->
+        <div class="demo">
+          <h2>4. <code>justify-content</code> &mdash; along the main axis</h2>
+
+          <span class="demo__label">flex-start (default)</span>
+          <div class="box-set jc-start">
+            <div class="box">1</div><div class="box">2</div><div class="box">3</div>
+          </div>
+
+          <span class="demo__label" style="margin-top: var(--space-4)">center</span>
+          <div class="box-set jc-center">
+            <div class="box">1</div><div class="box">2</div><div class="box">3</div>
+          </div>
+
+          <span class="demo__label" style="margin-top: var(--space-4)">space-between &mdash; the navbar pattern</span>
+          <div class="box-set jc-between">
+            <div class="box">1</div><div class="box">2</div><div class="box">3</div>
+          </div>
+
+          <span class="demo__label" style="margin-top: var(--space-4)">space-around</span>
+          <div class="box-set jc-around">
+            <div class="box">1</div><div class="box">2</div><div class="box">3</div>
+          </div>
+        </div>
+
+        <!-- ============================================================
+             5. ALIGN-ITEMS
+             ============================================================ -->
+        <div class="demo">
+          <h2>5. <code>align-items</code> &mdash; along the cross axis</h2>
+
+          <span class="demo__label">stretch (default) &mdash; why cards end up equal height</span>
+          <div class="box-set ai-stretch">
+            <div class="box">1</div><div class="box box--alt">2</div><div class="box">3</div>
+          </div>
+
+          <span class="demo__label" style="margin-top: var(--space-4)">center &mdash; vertical centring, finally solved</span>
+          <div class="box-set ai-center">
+            <div class="box">1</div><div class="box box--tall box--alt">2 (taller)</div><div class="box">3</div>
+          </div>
+
+          <span class="demo__label" style="margin-top: var(--space-4)">flex-end</span>
+          <div class="box-set ai-end">
+            <div class="box">1</div><div class="box box--tall box--alt">2 (taller)</div><div class="box">3</div>
+          </div>
+        </div>
+
+        <!-- ============================================================
+             6. FLEX SHORTHAND
+             ============================================================ -->
+        <div class="demo">
+          <h2>6. <code>flex: grow shrink basis</code> &mdash; sharing the space</h2>
+          <p class="text-muted">
+            The middle box has <code>flex: 2</code>, so it claims twice as much
+            of the leftover space as its neighbours. The last box has
+            <code>flex: 0 0 6rem</code> &mdash; fixed, immovable.
+          </p>
+
+          <span class="demo__label">flex: 1 &nbsp;|&nbsp; flex: 2 &nbsp;|&nbsp; flex: 0 0 6rem</span>
+          <div class="box-set grow-demo">
+            <div class="box grow-1">flex: 1</div>
+            <div class="box box--alt grow-2">flex: 2</div>
+            <div class="box grow-0">fixed</div>
+          </div>
+        </div>
+
+        <!-- ============================================================
+             7. THE BOX MODEL
+             ============================================================ -->
+        <div class="demo">
+          <h2>7. The box model &mdash; <code>content-box</code> vs <code>border-box</code></h2>
+          <p class="text-muted">
+            Both boxes say <code>width: 220px</code>. Both have 20px padding and
+            a 6px border. Measure them with DevTools: the first is
+            <strong>272px</strong> wide, the second is exactly
+            <strong>220px</strong>. The dashed ruler underneath each one is the
+            same length, so the difference is easy to see.
+          </p>
+
+          <div class="bm-stage">
+            <div>
+              <span class="demo__label">box-sizing: content-box (browser default)</span>
+              <div class="bm-box bm-box--content">
+                width: 220px<br />
+                + padding 20&times;2<br />
+                + border 6&times;2<br />
+                <strong>= 272px on screen</strong>
+              </div>
+              <div class="bm-ruler"></div>
+            </div>
+
+            <div>
+              <span class="demo__label">box-sizing: border-box (what we use)</span>
+              <div class="bm-box bm-box--border">
+                width: 220px<br />
+                padding and border grow inward<br />
+                <br />
+                <strong>= 220px on screen</strong>
+              </div>
+              <div class="bm-ruler"></div>
+            </div>
+          </div>
+
+          <p style="margin-top: var(--space-5)">
+            This is why <code>css/base/reset.css</code> opens by setting
+            <code>box-sizing: border-box</code> on every element. From then on,
+            the number you write is the number you get.
+          </p>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <p class="site-footer__text">Week&nbsp;1 &middot; Day 5 &mdash; display, position, Flexbox</p>
+      <p class="site-footer__text"><a href="../index.html">&larr; Back to the bio page</a></p>
+    </div>
+  </footer>
+</body>
+</html>

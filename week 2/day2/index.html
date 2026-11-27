@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<!-- Week 2 · Day 2 (Tuesday) — media queries, mobile-first.
+     Yesterday's gallery reflowed on its own, but broke at 375px: the
+     span-2 feature tile forced two tracks that could not fit, giving
+     224px + 87px. Today that is fixed properly.
+     The CSS is written MOBILE-FIRST: the base rules are the phone layout,
+     and min-width queries add complexity as the screen grows. -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A photo gallery built with CSS Grid — Week 2, Day 1." />
+  <title>Gallery — responsive</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <header class="head">
+    <p class="eyebrow">Week 2 · Tuesday · Media queries</p>
+    <h1>Photo gallery, responsive</h1>
+    <p class="lead">
+      The same nine images, now mobile-first. Resize the window and watch the
+      badge below change — that indicator is pure CSS, no JavaScript.
+    </p>
+
+    <!-- A live breakpoint readout. Its text comes from CSS ::after rules
+         inside each media query, so it proves which one is active. -->
+    <p class="bp" aria-live="polite">Active layout: <span></span></p>
+  </header>
+
+  <main>
+
+    <!-- THE GALLERY
+         One <ul>, nine <li>. Grid places them; the markup stays flat.
+         Two items carry a modifier class to span extra tracks. -->
+    <section>
+      <h2>The grid</h2>
+      <ul class="gallery">
+
+        <!-- a wide item: spans two columns and two rows -->
+        <li class="tile tile--feature">
+          <figure>
+            <img src="img/01-harbour.svg" alt="Harbour at dusk, teal water under a gold sun"
+                 width="400" height="300" loading="lazy" />
+            <figcaption>Harbour <span>spans 2 × 2 from 64em</span></figcaption>
+          </figure>
+        </li>
+
+        <li class="tile">
+          <figure>
+            <img src="img/02-dunes.svg" alt="Ochre sand dunes in layered bands"
+                 width="400" height="300" loading="lazy" />
+            <figcaption>Dunes</figcaption>
+          </figure>
+        </li>
+
+        <li class="tile">
+          <figure>
+            <img src="img/03-pines.svg" alt="Dark green pine ridges"
+                 width="400" height="300" loading="lazy" />
+            <figcaption>Pines</figcaption>
+          </figure>
+        </li>
+
+        <!-- a tall item: spans two rows -->
+        <li class="tile tile--tall">
+          <figure>
+            <img src="img/04-dusk.svg" alt="Violet dusk sky over indigo hills"
+                 width="400" height="300" loading="lazy" />
+            <figcaption>Dusk <span>spans 2 rows from 40em</span></figcaption>
+          </figure>
+        </li>
+
+        <li class="tile">
+          <figure>
+            <img src="img/05-coast.svg" alt="Pale blue coastline in soft layers"
+                 width="400" height="300" loading="lazy" />
+            <figcaption>Coast</figcaption>
+          </figure>
+        </li>
+
+        <li class="tile">
+          <figure>
+            <img src="img/06-canyon.svg" alt="Deep red canyon walls under amber light"
+                 width="400" height="300" loading="lazy" />
+            <figcaption>Canyon</figcaption>
+          </figure>
+        </li>
+
+        <li class="tile">
+          <figure>
+            <img src="img/07-orchard.svg" alt="Green orchard rows under a cream sky"
+                 width="400" height="300" loading="lazy" />
+            <figcaption>Orchard</figcaption>
+          </figure>
+        </li>
+
+        <li class="tile">
+          <figure>
+            <img src="img/08-tundra.svg" alt="Slate tundra under a pale horizon"
+                 width="400" height="300" loading="lazy" />
+            <figcaption>Tundra</figcaption>
+          </figure>
+        </li>
+
+        <li class="tile">
+          <figure>
+            <img src="img/09-city.svg" alt="Dusky city skyline in muted violet"
+                 width="400" height="300" loading="lazy" />
+            <figcaption>City</figcaption>
+          </figure>
+        </li>
+
+      </ul>
+    </section>
+
+    <section>
+      <h2>The three layouts</h2>
+      <p>
+        Mobile-first means the base CSS is the phone layout. Each
+        <code>min-width</code> query then adds something, as the screen earns it.
+      </p>
+      <div class="steps">
+        <div><strong>Base</strong><span>under 40em</span><em>1 column · nothing spans</em></div>
+        <div><strong>&ge; 40em</strong><span>640px</span><em>auto-fit tracks · tall tile spans 2 rows</em></div>
+        <div><strong>&ge; 64em</strong><span>1024px</span><em>feature tile spans 2 × 2</em></div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p class="muted">Week 2 · Day 2 — media queries, mobile-first. Tomorrow: transitions and hover.</p>
+  </footer>
+
+</body>
+</html>

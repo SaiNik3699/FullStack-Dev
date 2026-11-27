@@ -1,0 +1,68 @@
+/* ===========================================================================
+   components/table.css                                  (Day 2 - tables)
+   ---------------------------------------------------------------------------
+   Browser default tables have double borders and no padding. Three rules fix
+   most of it.
+   =========================================================================== */
+
+/* The wrapper scrolls sideways on a narrow screen so a wide table never
+   stretches the whole page. */
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface);
+}
+
+.table {
+  /* collapse merges adjacent cell borders into one line. Without it you get
+     a doubled, slightly gappy grid. */
+  border-collapse: collapse;
+
+  width: 100%;
+  min-width: 36rem;     /* below this, the wrapper scrolls instead */
+  font-size: var(--text-sm);
+  text-align: left;
+}
+
+.table__caption {
+  padding: var(--space-4) var(--space-4) var(--space-2);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  text-align: left;
+  caption-side: top;
+}
+
+.table th,
+.table td {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: top;
+}
+
+/* thead cells: the column headers */
+.table thead th {
+  background-color: var(--color-surface-muted);
+  color: var(--color-heading);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* tbody row headers: the day names in the first column */
+.table tbody th {
+  color: var(--color-primary-dark);
+  font-weight: 650;
+  white-space: nowrap;
+  width: 4.5rem;
+}
+
+/* :last-child is a pseudo-class matching the final element of its parent.
+   Here it removes the border under the very last row. */
+.table tbody tr:last-child th,
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table tbody tr:hover {
+  background-color: var(--color-primary-light);
+}

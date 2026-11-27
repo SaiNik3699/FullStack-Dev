@@ -1,0 +1,101 @@
+/* ===========================================================================
+   components/card.css                                   (Day 5 - card row)
+   ---------------------------------------------------------------------------
+   The Friday deliverable, part two.
+
+   THE PROBLEM every beginner hits: three cards side by side, each with a
+   different amount of text, so they end up different heights and the row
+   looks broken.
+
+   THE FIX, and it is two lines:
+     .card-row { align-items: stretch; }   <- the default, so cards match
+     .card     { display: flex; flex-direction: column; }
+     .card__link { margin-top: auto; }     <- pin the link to the bottom
+
+   `margin-top: auto` inside a flex column absorbs every spare pixel above
+   the element, which pushes it to the bottom of the card. Same trick as
+   `margin-inline: auto` for centring, just on one axis.
+   =========================================================================== */
+
+.card-row {
+  display: flex;
+  flex-wrap: wrap;             /* wrap to the next line instead of squashing */
+  gap: var(--space-5);
+  align-items: stretch;        /* every card matches the tallest one         */
+}
+
+.card {
+  /* Aim for 17rem per card: three fit on a laptop, two on a tablet, one on
+     a phone - and not a single media query is involved. */
+  flex: 1 1 17rem;
+
+  display: flex;
+  flex-direction: column;      /* so margin-top: auto works below */
+
+  padding: var(--space-5);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+
+  transition: box-shadow var(--transition),
+              transform var(--transition),
+              border-color var(--transition);
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-primary);
+}
+
+.card__day {
+  font-size: var(--text-sm);
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: var(--space-2);
+}
+
+.card__title {
+  margin-bottom: var(--space-3);
+}
+
+.card__body {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  margin-bottom: var(--space-4);
+}
+
+.card__link {
+  /* The line that pins the link to the bottom edge of every card. */
+  margin-top: auto;
+  padding-top: var(--space-4);
+
+  font-size: var(--text-sm);
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.card__link:hover {
+  text-decoration: underline;
+}
+
+/* -- Tags inside a card ---------------------------------------------------- */
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.tag {
+  padding: var(--space-1) var(--space-3);
+  background-color: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}

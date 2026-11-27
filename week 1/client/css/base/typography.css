@@ -1,0 +1,103 @@
+/* ===========================================================================
+   base/typography.css                            (Day 4 - selectors, fonts)
+   ---------------------------------------------------------------------------
+   SELECTOR TYPES used in this file, weakest to strongest:
+     body            element selector   - matches every <body>
+     .eyebrow        class selector     - matches class="eyebrow"
+     a:hover         pseudo-class       - matches a state, not an element
+     a::after        pseudo-element     - styles a generated sub-part
+
+   Keep selectors shallow. `.card__title` beats `section div article h3` every
+   time: it is easier to read, faster for the browser, and does not break the
+   moment someone moves the markup.
+   =========================================================================== */
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  color: var(--color-text);
+  background-color: var(--color-surface);
+
+  /* Smoother text rendering on macOS. */
+  -webkit-font-smoothing: antialiased;
+
+  /* Anchor links (#skills) scroll with a little breathing room at the top
+     instead of hiding under the sticky header. */
+  scroll-behavior: smooth;
+}
+
+/* -- Headings ------------------------------------------------------------- */
+h1, h2, h3, h4 {
+  color: var(--color-heading);
+  line-height: var(--leading-tight);
+  font-weight: 700;
+
+  /* Keeps a heading from being orphaned at the bottom of a scroll jump. */
+  scroll-margin-top: var(--space-7);
+}
+
+h1 { font-size: var(--text-hero); letter-spacing: -0.02em; }
+h2 { font-size: var(--text-2xl); letter-spacing: -0.01em; }
+h3 { font-size: var(--text-xl); }
+h4 { font-size: var(--text-lg); }
+
+/* -- Paragraphs ----------------------------------------------------------- */
+p {
+  /* max-width in `ch` units = roughly that many characters per line.
+     65-75 characters is the readable range; beyond it the eye loses the
+     start of the next line. */
+  max-width: 68ch;
+}
+
+/* The adjacent-sibling combinator: "a p that directly follows a p".
+   Spacing goes BETWEEN paragraphs, never before the first one. */
+p + p {
+  margin-top: var(--space-4);
+}
+
+/* -- Links ---------------------------------------------------------------- */
+a {
+  color: var(--color-primary);
+  text-decoration: underline;
+
+  /* Pushes the underline below letter descenders (g, y, p) so it stays
+     legible instead of slicing through them. */
+  text-underline-offset: 0.15em;
+  transition: color var(--transition);
+}
+
+a:hover {
+  color: var(--color-primary-dark);
+}
+
+/* -- Inline text ---------------------------------------------------------- */
+strong {
+  font-weight: 650;
+  color: var(--color-heading);
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;              /* em = relative to the SURROUNDING text,
+                                    so inline code shrinks to match whatever
+                                    it sits inside. */
+  background-color: var(--color-primary-light);
+  color: var(--color-primary-dark);
+  padding: 0.1em 0.4em;
+  border-radius: var(--radius-sm);
+}
+
+/* -- Small helper classes ------------------------------------------------- */
+.eyebrow {
+  font-size: var(--text-sm);
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: var(--space-2);
+}
+
+.text-muted {
+  color: var(--color-text-muted);
+}
