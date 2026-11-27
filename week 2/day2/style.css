@@ -2,32 +2,67 @@
 
 /* Week 2 · Day 2 — media queries, mobile-first.
 
-   MOBILE-FIRST means the rules OUTSIDE any media query are the phone layout.
+   MOBILE-FIRST: the rules OUTSIDE any media query ARE the phone layout.
    Each `min-width` query then ADDS to it as the screen gets bigger.
 
-     mobile-first   base = simple, @media (min-width:) adds   <- this file
+     mobile-first   base = simple, @media (min-width:) adds     <- this file
      desktop-first  base = complex, @media (max-width:) removes
 
-   Why mobile-first wins: a phone downloads and applies the smallest set of
-   rules, you are forced to decide what matters most, and you only ever add
-   complexity — never unpick it.
-
-   BREAKPOINTS IN em, NOT px. 40em = 640px at the default font size, but if
-   someone has set a larger browser font, the breakpoint scales with it. px
-   breakpoints ignore that preference entirely. */
+   BREAKPOINTS IN em, NOT px. 40em is 640px at the default font size, but if
+   a reader has set a larger browser font the breakpoint scales with them.
+   A px breakpoint ignores that preference entirely. */
 
 :root {
-  --ink: #16212e; --muted: #6b7f92; --accent: #0d7d74; --accent-dk: #09574f;
-  --wash: #e6f4f2; --surface: #fff; --alt: #f5f8f9; --line: #dce6ea;
+  /* --muted darkened from #6b7f92: that only reached 4.03:1 on this
+     near-white ground, under the 4.5:1 WCAG AA minimum for body text. */
+  --ink: #16212e; --muted: #637688; --accent: #0d7d74; --accent-dk: #09574f;
+  --wash: #e6f4f2; --surface: #ffffff; --alt: #f5f8f9; --line: #dce6ea;
+  --panel: rgb(255 255 255 / .72);
   --font: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, sans-serif;
   --head: Georgia, "Times New Roman", serif;
-  --radius: 10px;
+  --radius: 12px;
+
+  /* The mesh colours, kept as channel triples so the alpha can vary. */
+  --m1: 13 125 116;    /* teal   */
+  --m2: 99 102 241;    /* indigo */
+  --m3: 217 154 43;    /* amber  */
+  --m4: 190 47 41;     /* rose   */
 }
 
 *, *::before, *::after { box-sizing: border-box; }
 
-body { margin: 0; background: var(--surface); color: var(--ink);
-       font-family: var(--font); line-height: 1.65; }
+/* ========================================================================
+   THE BACKGROUND — layered CSS gradients, no image files at all.
+
+   `background` accepts a COMMA-SEPARATED LIST of layers. The first one
+   written sits on top; the last is furthest back. Each radial-gradient
+   fades from a tinted centre to transparent, and overlapping them produces
+   a soft "mesh" that looks hand-painted.
+
+   BASE = 2 layers. A phone gets the cheapest version: every gradient layer
+   is pixels the GPU has to paint, so mobile-first applies to COST, not
+   just to layout. The queries below add layers as the screen grows.
+   ======================================================================== */
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font);
+  line-height: 1.65;
+  min-height: 100vh;
+
+  background-color: #fbfcfd;              /* the ground the layers sit on */
+  background-image:
+    radial-gradient(60rem 40rem at 15% -10%, rgb(var(--m1) / .14), transparent 60%),
+    radial-gradient(50rem 40rem at 95% 10%, rgb(var(--m2) / .12), transparent 60%);
+  background-repeat: no-repeat;
+}
+
+/* ========================================================================
+   BASE — the phone layout. No media query above this line.
+   One column, and NOTHING spans: that is what fixes Day 1's 375px bug,
+   where a span-2 tile forced two 14rem tracks into a 327px container and
+   produced 224px + 87px.
+   ======================================================================== */
 
 h1, h2 { font-family: var(--head); line-height: 1.2; margin: 0 0 .6rem; }
 h1 { font-size: clamp(1.7rem, 5vw, 2.8rem); letter-spacing: -.02em; }
@@ -42,26 +77,28 @@ code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .88em;
 .muted { color: var(--muted); font-size: .88rem; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
-/* Padding grows with the screen — small gutters matter on a phone. */
 .head, main, footer { max-width: 68rem; margin-inline: auto; padding-inline: 1rem; }
-.head { padding-block: 2rem 1rem; }
+.head { padding-block: 1.5rem 1rem; }
 section { padding-block: 1.5rem 2.5rem; }
-footer { border-top: 1px solid var(--line); padding-block: 1.5rem; }
+footer { padding-block: 1.5rem 2.5rem; }
 
-/* The live breakpoint readout. Its text is set by ::after inside each
-   query below, so what you see IS which media query is winning. */
+/* A frosted panel so text stays readable wherever it lands on the mesh.
+   backdrop-filter blurs whatever is BEHIND the element. */
+.panel {
+  padding: 1.25rem;
+  background: var(--panel);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgb(255 255 255 / .6);
+  border-radius: var(--radius);
+  box-shadow: 0 1px 2px rgb(22 33 46 / .04);
+}
+
 .bp { display: inline-block; margin: 0; padding: .4rem .8rem;
       background: var(--wash); border: 1px solid var(--line);
       border-radius: 999px; font-size: .82rem; font-weight: 600;
       color: var(--accent-dk); }
-.bp span::after { content: "base (under 40em) · 1 column"; }
+.bp span::after { content: "base (under 40em) · 1 column · 2 layers"; }
 
-/* ========================================================================
-   BASE — the phone layout. No media query above this line.
-   One column, and NOTHING spans: that is what fixes yesterday's 375px bug,
-   where a span-2 tile forced two tracks of 14rem into a 327px container
-   and produced 224px + 87px.
-   ======================================================================== */
 .gallery {
   display: grid;
   grid-template-columns: 1fr;     /* one column on a phone, full stop */
@@ -71,7 +108,8 @@ footer { border-top: 1px solid var(--line); padding-block: 1.5rem; }
 }
 
 .tile { position: relative; overflow: hidden; border-radius: var(--radius);
-        border: 1px solid var(--line); background: var(--alt); }
+        border: 1px solid rgb(255 255 255 / .5); background: var(--alt);
+        box-shadow: 0 2px 10px rgb(22 33 46 / .07); }
 .tile figure { margin: 0; height: 100%; }
 .tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .tile figcaption { position: absolute; left: 0; right: 0; bottom: 0;
@@ -79,9 +117,8 @@ footer { border-top: 1px solid var(--line); padding-block: 1.5rem; }
                    color: #fff; font-size: .82rem; font-weight: 600; }
 .tile figcaption span { font-weight: 400; opacity: .8; font-size: .75rem; }
 
-/* The three-layout explainer, stacked by default */
 .steps { display: grid; grid-template-columns: 1fr; gap: .75rem; }
-.steps div { padding: 1rem; background: var(--alt);
+.steps div { padding: 1rem; background: rgb(255 255 255 / .55);
              border: 1px solid var(--line); border-radius: var(--radius); }
 .steps strong { display: block; color: var(--accent-dk); }
 .steps span { display: block; font-size: .78rem; color: var(--muted);
@@ -90,12 +127,20 @@ footer { border-top: 1px solid var(--line); padding-block: 1.5rem; }
             color: var(--ink); font-style: normal; }
 
 /* ========================================================================
-   >= 40em (640px) — a tablet earns a real grid.
-   auto-fit can now make 2+ tracks honestly, so the tall tile may span rows.
+   ≥ 40em (640px) — a tablet earns a real grid, and two more mesh layers.
    ======================================================================== */
 @media (min-width: 40em) {
+  body {
+    background-image:
+      radial-gradient(60rem 40rem at 15% -10%, rgb(var(--m1) / .16), transparent 60%),
+      radial-gradient(50rem 40rem at 95% 10%, rgb(var(--m2) / .14), transparent 60%),
+      radial-gradient(45rem 35rem at 10% 95%, rgb(var(--m3) / .13), transparent 60%),
+      radial-gradient(40rem 32rem at 90% 85%, rgb(var(--m4) / .10), transparent 60%);
+  }
+
   .head, main, footer { padding-inline: 1.5rem; }
   .head { padding-block: 3rem 1rem; }
+  .panel { padding: 1.75rem; }
   section { padding-block: 2rem 3rem; }
 
   .gallery {
@@ -106,21 +151,48 @@ footer { border-top: 1px solid var(--line); padding-block: 1.5rem; }
   .tile--tall { grid-row: span 2; }
 
   .steps { grid-template-columns: repeat(3, 1fr); }
-  .bp span::after { content: "≥ 40em · auto-fit · tall tile spans"; }
+  .bp span::after { content: "≥ 40em · auto-fit · tall tile spans · 4 layers"; }
 }
 
 /* ========================================================================
-   >= 64em (1024px) — only now is there room for a 2 x 2 feature tile.
+   ≥ 64em (1024px) — only now is there room for a 2 × 2 feature tile.
+   A fifth layer adds a fine grid, and the mesh is fixed so it stays put
+   while the page scrolls.
    ======================================================================== */
 @media (min-width: 64em) {
+  body {
+    background-image:
+      linear-gradient(rgb(var(--m1) / .05) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(var(--m1) / .05) 1px, transparent 1px),
+      radial-gradient(60rem 40rem at 15% -10%, rgb(var(--m1) / .17), transparent 60%),
+      radial-gradient(50rem 40rem at 95% 10%, rgb(var(--m2) / .15), transparent 60%),
+      radial-gradient(45rem 35rem at 10% 95%, rgb(var(--m3) / .14), transparent 60%);
+    background-size: 28px 28px, 28px 28px, auto, auto, auto;
+    background-attachment: fixed;   /* the mesh stays while content scrolls */
+  }
+
   .tile--feature { grid-column: span 2; grid-row: span 2; }
   .tile--feature figcaption { font-size: 1rem; padding: .8rem 1rem; }
-  .bp span::after { content: "≥ 64em · feature tile spans 2 × 2"; }
+  .bp span::after { content: "≥ 64em · feature spans 2 × 2 · 5 layers, fixed"; }
 }
 
 /* ========================================================================
-   Media features that are not about width at all.
+   Media features that have nothing to do with width.
    ======================================================================== */
+
+/* Dark mode is a media query too. Only the TOKENS change — not one layout
+   rule is repeated, which is the whole argument for custom properties. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #e8eef4; --muted: #94a8ba; --accent: #4fcbac; --accent-dk: #8fe3cd;
+    --wash: #10322c; --surface: #0f1720; --alt: #141d27; --line: #24323f;
+    --panel: rgb(16 24 33 / .72);
+  }
+  body { background-color: #0b1118; }
+  .panel { border-color: rgb(255 255 255 / .07); }
+  .tile  { border-color: rgb(255 255 255 / .07); }
+  .steps div { background: rgb(255 255 255 / .04); }
+}
 
 /* Respect an operating-system setting to reduce motion. */
 @media (prefers-reduced-motion: reduce) {
@@ -128,15 +200,21 @@ footer { border-top: 1px solid var(--line); padding-block: 1.5rem; }
                            transition-duration: .01ms !important; }
 }
 
-/* A coarse pointer (finger) needs bigger targets than a mouse. */
+/* A coarse pointer (a finger) needs bigger targets than a mouse.
+   background-attachment: fixed also janks badly on iOS, so drop it. */
 @media (pointer: coarse) {
   .tile figcaption { padding: .7rem .75rem; }
+  body { background-attachment: scroll; }
 }
 
-/* Printing is a medium too — drop the chrome, let the grid go flat. */
+/* Printing is a medium too: drop the mesh entirely — it wastes ink and
+   makes the text harder to read on paper. */
 @media print {
+  body { background: #fff; }
   .bp, footer { display: none; }
+  .panel { background: none; backdrop-filter: none; border: none;
+           box-shadow: none; padding: 0; }
   .gallery { grid-template-columns: repeat(2, 1fr); gap: .5rem; }
   .tile--feature, .tile--tall { grid-column: auto; grid-row: auto; }
-  .tile { border-color: #999; }
+  .tile { border-color: #999; box-shadow: none; }
 }
