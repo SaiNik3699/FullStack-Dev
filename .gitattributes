@@ -1,0 +1,21 @@
+# .gitattributes — tells git HOW to handle particular files.
+#
+# Git assumes text. For anything it cannot read as text, say so explicitly:
+# without this it may try to diff a Word document line by line, or "fix"
+# line endings inside a binary and corrupt it.
+
+# Normalise line endings for text, so a Windows checkout does not show
+# every line as changed.
+* text=auto
+
+# Generated documents and decks: binary. Never diff, never merge.
+*.docx binary
+*.pptx binary
+*.pdf  binary
+*.zip  binary
+
+# Images
+*.png binary
+*.jpg binary
+
+# SVG is XML, so it IS text and diffs usefully — left as text on purpose.
